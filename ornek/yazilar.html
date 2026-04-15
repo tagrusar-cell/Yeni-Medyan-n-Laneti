@@ -572,6 +572,56 @@
             gap: 2.5rem;
         }
 
+        /* =========================================
+           Kategori Navigasyon Çubuğu (Yeni)
+           ========================================= */
+        .tag-nav-wrapper {
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--accent-light);
+            position: fixed;
+            top: 80px; /* Header yüksekliğine göre ayarlandı */
+            width: 100%;
+            z-index: 998;
+            padding: 0.75rem 0;
+            transition: var(--theme-transition);
+        }
+
+        .tag-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE/Edge */
+            padding: 0 1rem;
+        }
+
+        .tag-nav-container::-webkit-scrollbar {
+            display: none; /* Chrome/Safari */
+        }
+
+        .tag-nav-item {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-heading);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            padding: 0.25rem 0.5rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tag-nav-item:hover, .tag-nav-item.active {
+            color: var(--accent-blue);
+            border-bottom-color: var(--accent-blue);
+        }
+
         .feature-card {
             background-color: var(--bg-primary);
             border: 1px solid rgba(186, 230, 253, 0.5);
@@ -837,6 +887,19 @@
             </nav>
         </div>
     </header>
+
+    <!-- Kategori Navigasyon Çubuğu -->
+    <div class="tag-nav-wrapper">
+        <div class="container tag-nav-container" id="tagNav">
+            <div class="tag-nav-item active" data-tag="all">HEPSİ</div>
+            <div class="tag-nav-item" data-tag="Yeni Medya">YENİ MEDYA</div>
+            <div class="tag-nav-item" data-tag="Dijital Kültür">DİJİTAL KÜLTÜR</div>
+            <div class="tag-nav-item" data-tag="Propaganda">PROPAGANDA</div>
+            <div class="tag-nav-item" data-tag="Medya Etkileri">MEDYA ETKİLERİ</div>
+            <div class="tag-nav-item" data-tag="Tüketim Toplumu">TÜKETİM TOPLUMU</div>
+            <div class="tag-nav-item" data-tag="Gösteri Toplumu">GÖSTERİ TOPLUMU</div>
+        </div>
+    </div>
 
     <!-- 3. Yazılar Listesi Alanı -->
     <section id="features" class="features" style="padding-top: 12rem; min-height: 80vh;">
@@ -1444,6 +1507,42 @@
             });
 
             // Arama butonu etkileşimi (search.js tarafından yönetiliyor)
+
+            // --- Kategori Filtreleme Mantığı (Yeni) ---
+            const filterArticles = (tag) => {
+                const cards = document.querySelectorAll('.feature-card');
+                const navItems = document.querySelectorAll('.tag-nav-item');
+
+                // Navigasyon butonlarını güncelle
+                navItems.forEach(item => {
+                    if (item.getAttribute('data-tag') === tag) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+
+                // Kartları filtrele
+                cards.forEach(card => {
+                    const cardTags = Array.from(card.querySelectorAll('.tag-badge')).map(t => t.textContent.trim());
+                    if (tag === 'all' || cardTags.includes(tag)) {
+                        card.style.display = 'block';
+                        setTimeout(() => { card.style.opacity = '1'; card.style.transform = 'translateY(0)'; }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => { card.style.display = 'none'; }, 300);
+                    }
+                });
+            };
+
+            // Etiket tıklama olaylarını dinle
+            document.querySelectorAll('.tag-nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const tag = item.getAttribute('data-tag');
+                    filterArticles(tag);
+                });
+            });
         });
     </script>
     <script src="js/theme.js"></script>
