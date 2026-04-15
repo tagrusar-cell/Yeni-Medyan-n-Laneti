@@ -59,6 +59,27 @@ const articlesIndex = [
         tags: ['Gösteri Toplumu', 'Tüketim Toplumu', 'meta fetişizmi part 4'],
         excerpt: 'Tüketim toplumu hayatta kalabilmek için birçok yakıta ihtiyaç duyar. Birçoklarımızın aklına metalar gelebilir...',
         content: 'Homo erectus Homo faber Homo Spectaculum dijital köy Omniptikon mahremiyet müstehcenlik Truman Show misyonerlik'
+    },
+    {
+        id: 'article-9',
+        title: 'Medya ve Bellek Arasındaki İlişki',
+        tags: ['Dijital Kültür', 'Bellek ve Medya part 1'],
+        excerpt: 'Medya ve bellek, ikisi de aslında çok farklı terimler gibi görünse de birbirlerini destekleyen iki kavramdır. Eskiden hafızamızda tuttuğumuz bilgileri artık dijital ortamlarda...',
+        content: 'bellek medya hafıza harddisk bulut depolama instagram arşivi Platon entelektüel Frankfurt okulu Hollywood standartizasyon seri üretim ekme kuramı kültür endüstrisi kapitalizm'
+    },
+    {
+        id: 'article-10',
+        title: '30 Ekim 1938 Orson Welles\'in Dünyalar Savaşı Yayını',
+        tags: ['Medya Etkileri', 'Propaganda', 'Bellek ve Medya part 2'],
+        excerpt: 'Amerikalılar CBS\'te, Orson Welles\'in romanından uyarlanmış olan \'dünyalar savaşı\' yayınının izlemektedirler. Ancak; oyun, spikerin araya girmesiyle kesilir...',
+        content: 'Orson Welles Dünyalar Savaşı Marslıların saldırısı radyo paniği CBS Cantril araştırması haber formatı kanaat önderi medya etkisi güçlü etkiler tezi'
+    },
+    {
+        id: 'article-11',
+        title: 'Stalin Fotoğrafı Nasıl Kullandı?',
+        tags: ['Medya Etkileri', 'Propaganda', 'Bellek ve Medya part 3'],
+        excerpt: 'Stalin\'in yaşadığı dönemde Photoshop teknolojisi yoktu belki ancak, bu Stalin için bir engel teşkil etmedi. O yine de rakiplerini tarih kitaplarından silmenin...',
+        content: 'Stalin fotoğraf manipülasyonu propaganda Berlin Muharebesi Nikolai Yezhov Büyük Tasfiye gulag 1984 George Orwell sansür bellek çukuru'
     }
 ];
 
