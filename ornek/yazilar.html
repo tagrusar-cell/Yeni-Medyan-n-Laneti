@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Yeni medyanın karmaşık ve anlaşılmaz dilinden sıyrılmış, sade, satirik ve akademik tartışmalar barındıran bir platform.">
+    <title>Yazılar - Yeni Medyanın Laneti</title>
+    
+    <!-- Google Fonts: Başlıklar için modern bir sans-serif (Inter), okunabilirlik için serif (Lora) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* =========================================
+           CSS Değişkenleri - Renk ve Font Sistemi
+           (Temel konsept: Bunalımdan kurtaran gökyüzü mavisi ve beyaz ferahtığı)
+           ========================================= */
+        :root {
+            /* Renk Paleti - Mavi ve Beyaz Tonları */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f0f9ff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent-blue: #0284c7;
+            --accent-light: #bae6fd;
+            --accent-hover: #0369a1;
+            --white: #ffffff;
+            --bg-overlay: rgba(255, 255, 255, 0.95);
+            --modal-bg: rgba(255, 255, 255, 0.98);
+            
+            /* Bar Renkleri */
+            --topbar-bg: var(--accent-blue);
+            --footer-bg: #1e293b;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --footer-text: #64748b;
+
+            /* Font Sistemi */
+            --font-heading: 'Inter', sans-serif;
+            --font-body: 'Lora', serif;
+
+            /* Geçişler */
+            --theme-transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: #0B132B;
+            --bg-secondary: #1A2238;
+            --text-main: #EAEAEA;
+            --text-muted: #94A3B8;
+            --accent-blue: #38BDF8;
+            --accent-light: #1E293B;
+            --accent-hover: #7DD3FC;
+            --white: #EAEAEA;
+            --bg-overlay: rgba(11, 19, 43, 0.95);
+            --modal-bg: rgba(11, 19, 43, 0.98);
+            --topbar-bg: #111e3d;
+            --footer-bg: #050914;
+            --nav-bg: rgba(11, 19, 43, 0.9);
+            --footer-text: #94A3B8;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            transition: var(--theme-transition);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* =========================================
+           Sıfırlama ve Temel Ayarlar
+           ========================================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Sayfa içi linklere tıklayınca yumuşak kaydırma */
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-main);
+            background-color: var(--bg-primary);
+            line-height: 1.8;
+            font-size: 1.125rem;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            color: var(--text-main);
+            line-height: 1.3;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Konteyner Yapısı */
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* =========================================
+           Bileşenler (Components)
+           ========================================= */
+        
+        /* Modern Buton Sınıfı */
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: var(--white);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            padding: 0.875rem 2.5rem;
+            border-radius: 50px; /* Hap şeklinde yuvarlak buton */
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.2);
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+            color: var(--white);
+            transform: translateY(-3px); /* Yukarı kayma efekti */
+            box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.3); /* Daha belirgin gölge */
+        }
+
+        /* Scroll Animasyonu için Gizli Durum Sınıfları */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.9s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* =========================================
+           Geçici Navigasyon (Header)
+           ========================================= */
+        .topbar {
+            background-color: var(--topbar-bg);
+            color: var(--white);
+            font-size: 0.85rem;
+            font-family: var(--font-heading);
+            letter-spacing: 2px;
+            padding: 0.5rem 0;
+            font-style: italic;
+            font-weight: 600;
+            transition: var(--theme-transition);
+        }
+        .topbar .container {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--nav-bg);
+            backdrop-filter: blur(10px); /* Cam efekti - Glassmorphism */
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--bg-secondary);
+            transition: padding 0.3s ease, background-color var(--theme-transition);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 0;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .nav-logo-img {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent-light);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .nav-logo-img {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            position: relative;
+        }
+
+        /* Navigasyon linkleri için hover alt çizgi efekti */
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Etiket / Tag Stilleri */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .tag-badge {
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(2, 132, 199, 0.08);
+            color: var(--accent-blue);
+            padding: 0.3rem 0.7rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(2, 132, 199, 0.15);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Arama Butonu Stilleri */
+        .search-item {
+            display: flex;
+            align-items: center;
+            margin-left: -0.5rem; /* Nav links gap'ini biraz dengelemek için */
+        }
+
+        .search-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+        }
+
+        .search-btn:hover {
+            color: var(--accent-blue);
+            background-color: var(--bg-secondary);
+            transform: scale(1.1);
+        }
+
+        /* Tema Değiştirici Stilleri */
+        .theme-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .theme-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .theme-btn:hover {
+            color: var(--accent-blue);
+            background-color: var(--bg-secondary);
+        }
+
+        .search-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* =========================================
+           Arama Overlay (Tam Ekran)
+           ========================================= */
+        .search-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-overlay);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 3000;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 800px;
+            margin-top: 10vh;
+            padding: 0 2rem;
+            transform: translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .search-overlay.active .search-container {
+            transform: translateY(0);
+        }
+
+        #searchInput {
+            width: 100%;
+            background: none;
+            border: none;
+            border-bottom: 2px solid var(--accent-blue);
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            color: var(--text-main);
+            padding: 1rem 0;
+            outline: none;
+            margin-bottom: 2rem;
+        }
+
+        .search-results {
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .search-result-item {
+            padding: 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+        }
+
+        .search-result-item:hover {
+            background-color: var(--bg-secondary);
+            border-color: var(--accent-light);
+        }
+
+        .search-result-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .search-result-item p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .search-result-item mark {
+            background-color: var(--accent-light);
+            color: var(--accent-blue);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .search-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            font-size: 3rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .search-close:hover {
+            color: var(--accent-blue);
+        }
+
+        .search-no-results {
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 2rem;
+        }
+
+        /* =========================================
+           Hero Alanı (Ana Karşılama)
+           ========================================= */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            /* Sakince açılan bir gökyüzü mavisi gradyanı */
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding-top: 80px; 
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem); /* Ekran küçüldükçe otomatik ufalan dinamik font boyutu */
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2vw, 1.35rem);
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* =========================================
+           İçerik/Giriş Bölümü (Açıklama ve Resim)
+           ========================================= */
+        .intro-section {
+            padding: 8rem 0;
+            background-color: var(--bg-primary);
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .intro-image {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(2, 132, 199, 0.15); /* Hafif mavimsi bir gölge */
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .intro-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.6s ease;
+        }
+
+        .intro-image:hover {
+            transform: scale(1.02);
+        }
+
+        .intro-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-text p {
+            color: var(--text-muted);
+        }
+
+        /* =========================================
+           Özellikler (Gelecek Yazıların Alanı)
+           ========================================= */
+        .features {
+            padding: 8rem 0;
+            background-color: var(--bg-secondary);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header h2 {
+            font-size: 2.75rem;
+        }
+
+        .section-header p {
+            font-family: var(--font-heading);
+            color: var(--accent-blue);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .feature-card {
+            background-color: var(--bg-primary);
+            border: 1px solid rgba(186, 230, 253, 0.5);
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Hover efekti için üstte beliren mavi çizgi animasyonu */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--accent-blue);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(2, 132, 199, 0.1), 0 10px 10px -5px rgba(2, 132, 199, 0.04);
+            border-color: transparent;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* =========================================
+           Zen Modu (Okuma Modalı)
+           ========================================= */
+        /* =========================================
+           Zen Modu (Okuma Modalı) & Okuma Araçları
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--modal-bg);
+            z-index: 2000;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .reading-tools {
+            position: fixed;
+            top: 2rem;
+            right: 5rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 2100;
+            background: var(--bg-secondary);
+            padding: 0.5rem;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .reading-tools button {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .reading-tools button:hover {
+            background-color: var(--accent-light);
+            color: var(--accent-blue);
+        }
+
+        /* Metin içi arama vurgulama */
+        .text-match {
+            background-color: var(--accent-blue);
+            color: var(--white);
+            padding: 0 2px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            font-weight: bold;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            position: relative;
+            transform: translateY(30px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            font-size: 2.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            z-index: 2010;
+        }
+
+        .modal-close:hover {
+            color: var(--accent-blue);
+        }
+
+        .article-title {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .article-body p {
+            font-size: 1.25rem;
+            margin-bottom: 1.8rem;
+            line-height: 2;
+        }
+
+        /* =========================================
+           Footer
+           ========================================= */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--white);
+            padding: 5rem 0 2rem 0;
+            text-align: center;
+            transition: var(--theme-transition);
+        }
+
+        .footer-content {
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.25rem;
+            display: inline-block;
+            letter-spacing: -1px;
+        }
+
+        .footer-text {
+            color: var(--footer-text); /* Footer içindeki gri-mavi ton */
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--footer-text);
+            font-size: 0.9rem;
+            font-family: var(--font-heading);
+        }
+
+        /* =========================================
+           Responsive Tasarım (Mobil Uyumluluk)
+           ========================================= */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Mobilde linkleri saklıyoruz, ileride hamburger menü yapılabilir */
+            }
+            
+            .intro-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .intro-image {
+                order: -1; /* Mobilde resmi yazının üstüne çıkart */
+            }
+
+            .features {
+                padding: 5rem 0;
+            }
+
+            .intro-section {
+                padding: 5rem 0;
+            }
+            
+            .hero {
+                padding-top: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header ve Navigasyon -->
+    <header>
+        <div class="topbar">
+            <div class="container">
+                Sapere aude
+            </div>
+        </div>
+        <div class="container">
+            <nav class="navbar">
+                <a href="index.html" class="logo">
+                    <img src="img/yml-logo.png" alt="YML Logo" class="nav-logo-img">
+                    <span>Yeni Medyanın Laneti</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                    <li><a href="yazilar.html">Yazılar</a></li>
+                    <li><a href="index.html#about">Yaklaşım</a></li>
+                    <li class="search-item">
+                        <button class="search-btn" id="searchTrigger" title="Ara">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </button>
+                    </li>
+                    <li class="theme-item">
+                        <button id="themeToggle" class="theme-btn" title="Görünümü Değiştir">
+                            <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                            <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 3. Yazılar Listesi Alanı -->
+    <section id="features" class="features" style="padding-top: 12rem; min-height: 80vh;">
+        <div class="container">
+            <div class="section-header reveal">
+                <p>Medya İncelemeleri</p>
+                <h1 style="font-size: 3rem; margin-bottom: 2rem;">Tüm Yazılarımız</h1>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Kutu 1 -->
+                <div class="feature-card reveal" style="transition-delay: 0.1s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Sanat ve Estetik</span>
+                        <span class="tag-badge">Tüketim Toplumu</span>
+                    </div>
+                    <h3>Sanat Yapıtının Solan Yaprakları</h3>
+                    <p>Sanat yapıtlarının, özellikle de görsel sanatların bir büyüsü olduğu tartışılmaz bir gerçektir. Bin bir emek ile üretilmiş o zengin objeler gözlerimiz olduğu için...</p>
+                    <button class="btn read-btn" data-article="article-1" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+
+                <!-- Kutu 2 -->
+                <div class="feature-card reveal" style="transition-delay: 0.2s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Yeni Medya</span>
+                        <span class="tag-badge">Dijital Kültür</span>
+                    </div>
+                    <h3>Yeni Medyanın Dişlileri</h3>
+                    <p>Yeni medya hiç şüphesiz ki hayatımızın büyük bir parçasını etkilemektir. Ne var ki, insanların neyin yeni medya olduğu, neyin geleneksel medya olduğu konusunda...</p>
+                    <button class="btn read-btn" data-article="article-2" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+
+                <!-- Kutu 3 -->
+                <div class="feature-card reveal" style="transition-delay: 0.3s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Gösteri Toplumu</span>
+                        <span class="tag-badge">Dijital Gözetim</span>
+                        <span class="tag-badge">Tele part 1</span>
+                    </div>
+                    <h3>Tele, Tele ve Tele: Tele dünyaya giriş</h3>
+                    <p>Yeni medya çağında gerçekliğin sınırlarının zorlandığı doğrudur. Ne gerçek ne değil, hala kestirilebilse de ikili arasındaki ayrımın inceldiği aşikardır...</p>
+                    <button class="btn read-btn" data-article="article-3" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+
+                <!-- Kutu 4 -->
+                <div class="feature-card reveal" style="transition-delay: 0.4s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Dijital Kültür</span>
+                        <span class="tag-badge">Sanat ve Estetik</span>
+                        <span class="tag-badge">Tele part 2</span>
+                    </div>
+                    <h3>Tele, Tele ve Tele: Tele dünyanın çarklıları</h3>
+                    <p>Bizi gözümüzden başlayarak kendi içinde hapseden ekranlar bizleri bir o kadar da sanal dünyada özgür kılar. Onun diyalektik yapısı da buradan gelir. Koltuklarımıza hapsolmamızın kefaretini...</p>
+                    <button class="btn read-btn" data-article="article-4" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+
+                <!-- Kutu 5 -->
+                <div class="feature-card reveal" style="transition-delay: 0.5s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Yeni Medya</span>
+                        <span class="tag-badge">Tüketim Toplumu</span>
+                        <span class="tag-badge">meta fetişizmi part 1</span>
+                    </div>
+                    <h3>Hız ile Yiten Anlam</h3>
+                    <p>Yeni medyaya tek bir anlam atfedecek olsak bu kesinlikle hız olurdu. Yeni medya, geçmiş dönemlerdeki zincirleri kırmış, insanları akışın birer parçası haline getirmiştir...</p>
+                    <button class="btn read-btn" data-article="article-5" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+
+                <!-- Kutu 6 -->
+                <div class="feature-card reveal" style="transition-delay: 0.6s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Yeni Medya</span>
+                        <span class="tag-badge">Dijital Gözetim</span>
+                        <span class="tag-badge">meta fetişizmi part 2</span>
+                    </div>
+                    <h3>Yeni Medyanın Terazisi</h3>
+                    <p>Medya için devasa boyutlara ulaşmış, kitlesel ve anlık bir gazete diyebiliriz. Medya çağının bizlere kazandırdığı hız ve anlılık onun en karakteristik özelliklerinden biridir...</p>
+                    <button class="btn read-btn" data-article="article-6" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+
+                <!-- Kutu 7 -->
+                <div class="feature-card reveal" style="transition-delay: 0.7s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Tüketim Toplumu</span>
+                        <span class="tag-badge">Dijital Kültür</span>
+                        <span class="tag-badge">meta fetişizmi part 3</span>
+                    </div>
+                    <h3>Tüketiciyi Tüketen Olgu</h3>
+                    <p>Meta fetişizmi sadece bir terim olmanın ötesinde sosyal ilişkileri ilgilendiren bir olgudur. Tüketim toplumunda; adil, dürüst ve güvenilirlik gibi kişilik özellikleri </p>
+                    <button class="btn read-btn" data-article="article-7" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+
+                <!-- Kutu 8 -->
+                <div class="feature-card reveal" style="transition-delay: 0.8s;">
+                    <div class="tag-container">
+                        <span class="tag-badge">Gösteri Toplumu</span>
+                        <span class="tag-badge">Tüketim Toplumu</span>
+                        <span class="tag-badge">meta fetişizmi part 4</span>
+                    </div>
+                    <h3>Meta Fetişizminin Gösterisi (final act)</h3>
+                    <p>Tüketim toplumu hayatta kalabilmek için birçok yakıta ihtiyaç duyar. Birçoklarımızın aklına metalar gelebilir. Ne var ki, onlar kapitalizmin anlam bozumuna uğratıp fetişleştirdiği nesnelerden fazlası değildir...</p>
+                    <button class="btn read-btn" data-article="article-8" style="margin-top: 1.5rem; padding: 0.6rem 1.5rem; font-size: 0.9rem;">Yazıyı Oku</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Alanı -->
+    <footer>
+        <div class="container">
+            <div class="footer-content reveal">
+                <a href="#" class="footer-logo">YENİ MEDYANIN LANETİ</a>
+                <p class="footer-text">Didaktizm ve sarkazmın mükemmel birleşimi. Okurken düşündüren, nefes aldıran yaratıcı bir medya eleştirisi platformu.</p>
+            </div>
+            <div class="footer-bottom">
+                &copy; <span id="year"></span> Yeni Medyanın Laneti. Sadece bir elçi.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Zen Modu Modal -->
+    <div class="modal-overlay" id="article-modal">
+        <button class="modal-close" id="close-modal">&times;</button>
+        
+        <!-- Minimalist Okuma Araçları -->
+        <div class="reading-tools">
+            <button class="modal-search-btn" title="Yazılarda ara">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+            <button class="modal-theme-btn" title="Görünümü Değiştir">
+                <svg class="sun-icon-mini" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                <svg class="moon-icon-mini" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </button>
+        </div>
+
+        <div class="modal-content">
+            <h1 class="article-title" id="modal-title"></h1>
+            <div class="article-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Makale İçerikleri (Hidden) -->
+    <div id="articles-data" style="display: none;">
+        <div id="article-1">
+            <p>Sanat yapıtlarının, özellikle de görsel sanatların bir büyüsü olduğu tartışılmaz bir gerçektir. Bin bir emek ile üretilmiş o zengin objeler gözlerimiz olduğu için şükrettiğimiz, bu an içinde eseri temaşa edebildiğimiz için bu gözlerle bizi kutsayan yaratıcıya minnetlerimizi sunduğumuz bir katarsis sürecidir.</p>
+            <p>Söz konusu eserler, eserin yaratıcısı ve tüketicisi arasında bir bağ oluşturur. Eserler bizlerde sanatçının hedeflediği duygu yoğunluğunu yaşatabilir veya sanatçının o eseri ilmek ilmek işlerken ki ruh hali ile bir özdeşlik kurmamızı sağlayabilir.</p>
+            <p>Söz konusu bu önermeye en başarılı örnek Vincent van Gogh’un “Yıldızlı Gece” tablosu olacaktır hiç şüphesiz. Vincent epilepsi hastalığından mustarip bir sanatçıydı. Bunun neticesinde objeleri olduğundan farklı bir perdeden geçirilmiş olarak görüyordu.</p>
+            <p>Vincent dünyayı epilepsinin süzgecinden geçirilmiş ve çarptırılmış haliyle görüyordu. Bu söz konusu nöbette onun nasıl hissettiğini anlamamız imkânsız. Vincent bize semptomlarını, kullandığı ilaçları ve o anki ruh hali ile gördüğü vizyonları anlatabilir. Ne var ki görme odaklı yaşayan ve anlam üretimi için görme kavramının kafesine hapsolmuş insan için Vincent’ın yakarışları hiçbir anlam ifade etmeyecektir.</p>
+            <p>Elimizden gelebilecek yegâne şey onu teselli etmek, çeşitli uzmanlarla konuşup tedavi sürecine olumlu etki ettiği kanıtlanmış ilaç, meditasyon, pilates ve yoga gibi takviyeleri veya egzersizleri yapması için cesaretlendirmektir.</p>
+            <p>Ne var ki asla Vincent gibi hissedemeyiz veya onun gördüklerini göremeyiz. Asla bir epilepsi nöbetinden mustarip birinin hayatını, yaşadığı süreçleri ve o nöbetler sırasındaki sözü bile edilemeyecek acı verici süreci yaşayamayız.</p>
+            <p>Ancak bu kısıtlılıklar Vincent için bir engel teşkil etmedi. O bizim onunla empati kurmamız için kapıları aralamaya istekliydi ve bu istencin meyvesi de “Yıldızlı Gece” tablosu oldu. Vincent’ın ustalık eserindeki sarmal ve spiral şekilleri tabloyu en çok öne çıkaran unsurdur hiç şüphesiz.</p>
+            <p>O spiraller, parlayan ve sanki gözümüz alacak gibi duran sarı hüzmeler, anlam ve görüntü bozumuna uğramış ölümü ve Vincent’ın içinde bulunduğu toprak üstündeki tabutu simgeleyen selvi ağacı her biri ilmek ilmek işlenmiş ve sembolik değeri yüksek anlamlar içermektedir.</p>
+            <p>Her bir nesnenin, kıvrımın ve seçilen renk paletinin bir anlamı vardır. Hiçbiri alelade değildir ve Vincent’ın acı dolu yalnız kafesine girmemiz için birer teşviktir. Sarmallar altın orana hizmet etmeleri için resme serpiştirilmiş ve Vincent’ın bu denli kaotik bir dönemden geçerken bile ne kadar mükemmeliyetçi ve hesaplı bir sanatçı olduğunun en büyük kanıtıdır. Onun ustalığı da burada yatmaktadır.</p>
+            <p>Görüldüğü üzere görsel sanat yapıtları sadece birer resimden fazlasıdır. Belli bir büyüleri vardır ve bizim ayaklarımızı yerden keserek zihnimizin asla tahmin edemeyeceğimiz yeni ufuklara yelken açmasına yardımcı olup yön göstericilik vazifesini yerine getirebilir.</p>
+            <p>Görerek nesnelere ve hayata anlam kazandırdığımız bu görme merkezli hayatta görsel sanatlar; bu hayatı daha derinden anlamamıza, farklı perspektifler kazanmamıza ve nihayetinde empati gibi çok yüce bir erdemi bize kazandırması neticesinde sanıldığından daha büyük işler yapmakta ve çok şey başarmaktadır.</p>
+            <p>Ancak her güzel hikâyenin bir sonu vardır. Sanat yapıtı da bu sondan pek ala nasibini almıştır. Günümüz dünyasında kapitalizm, dokunduğu her nesneyi veya değeri anlam bozumuna uğratmakta onlara farklı perspektifler katarak anlam bozumuna sürüklemektedir.</p>
+            <p>Buradaki söz konusu farklı perspektif olgusunun Vincent’inkine benzeyen hiçbir yanı yoktur. Ünlü sanatçı bunu yaparken bir amaç ile bir empati sürecinin fitilini ateşlemek için yola çıkarken kapitalizmin böyle bir çabası asla olmamıştır. Çünkü böyle bir çaba ne optimaldir ne de karlıdır.</p>
+            <p>Günümüz kapitalizminin her şeye dokunup onu kirlettiği ve saflığını çaldığı bu cesur yeni dünyada nerdeyse her nesne gibi sanat yapıtı da payına düşeni almış ve bu çarpık dünyada yaşamak için gerekli olan kefaretini ödemiştir.</p>
+            <p>Değer yaprakları bir bir solarken ve kuru toprağı öperken, kendini kapitalizmin bir çarklısına çevirmiştir. Hayattadır evet ama bu hayattalılık durumu George A. Romero’nun “tüketim zombilerinden” farksızdır.</p>
+            <p>Her bir düşen yaprağın ardından ağıt yakmak gereksiz ve vaktimize yazıktır. Ne var ki, medya çağında zorla sökülen bu yaprakların ve çıplak dallardan başka bir şeyi kalmamış o güzel bitkileri hayata döndürmenin belki de yegâne yolu söz konusu yaprakların anlamını özümsemekten geçer.</p>
+            <p>Evet belki yaprakları yerlerine geri koyamayız. Hatta Demeter bile bu konuda yetersiz kalacaktır. Ancak, Demeter’e yeni tohumlar ekmesi için güç vermek istiyorsak önce düşen yaprakların değerini anlamalı ve neleri kaybettiğimizi özümsememiz lazım. Ve şimdi de bunu yapacağız. Hatta durduğumuz kabahat.</p>
+            <p>Görsel bir sanat yapıtı görülerek temaşa edilmesinden öte anlılığıyla da kendi varlığını hissettirir. Sanat yapıtının en önemli ve kıymetli olgularından biri bahçıvandan kaçarken ki sınırlı vaktimizde onu deneyimlememiz ve temaşa etmemiz için de zaman ve mekân kısıtlamasına mutabık olmamızdır.</p>
+            <p>Komplo teorilerini yazımın dışına atarak sizlere sadece bir adet Mona Lisa tablosu olduğunu söyleyebilirim. Leonardo sadece bir tane Lisa yapmıştır ve bu ona bir değer atfetmemize sebep olur.</p>
+            <p>Ne de olsa kıtlık yasası dediğimiz bir olgu var ve her ne kadar günümüz sosyal medya çağında insanlar şeffaflaşıp pürüzsüzleşse de ve bini bir para şeklinde kendilerini sunsalar da kıtlık yasası hala yürürlüktedir.</p>
+            <p>Bu yasanın alametifarikası sınırlı olan ve örtük olan her şeye maksimize edilmiş bir değeri atfetmesidir. Byung Chul Han gibi marjinallerin de üzerinde durduğu gibi, bir şey ne kadar gizli ne kadar saklı ve ne kadar örtükse o kadar değerli olur. Bu gizem ve aura ona bir önem atfetmekle birlikte ona ulaşılmaz ve fetişik bir zevk de verir.</p>
+            <p>Bir şeyin örtülü ve gizli oluşu hayal gücünü tetiklediği gibi sayısız olasılığı da beraberinde getirir. Nasıl ki bizler tanrıyı görmüyor ve söz konusu yaratıcıya hayranlık duyuyorsak aynı denklem burada da geçerlidir. Bir şeyin gizli ve saklı oluşu, hayal gücünü tetikler, hayal gücü fanteziyle birleşip onu olduğundan daha yüce ve üstün görmemizi sağlar.</p>
+            <p>Belki tanrı var olduğunu söyleyip bize kendini gösterse insanlar tanrının varlığını inkâr edemez konuma gelebilirdi. Ama bu tanrıyı tanrı yapan aşkınlık ilkesinin anlam bozumuna uğrayıp eriyip gitmesine de sebebiyet verir.</p>
+            <p>Çünkü, tanrı artık bizimle aynı mertebeye inmiş, bizimle eşit ve bir olmuştur ki bu da tanrının Tenzihi İlkesine yani Madde Dışılık ilkesiyle çakışıp tanrının varlığını anlam bozumuna uğratır.</p>
+            <p>Evet tanrı kendini gösterebilir. Evet tanrı kusurlu gözlerimizin kusurunun kaldırıp bizleri görsel hazzı ile taçlandırabilir ancak ne var ki bu tanrıyı tanrı yapan ilkeleri pürüzsüzleştirir, şeffaflaştırır ve anlam bozumuna uğratır.</p>
+            <p>Aynı korelasyonluk sanat yapıtı için de pek ala aktif ve iş üstündedir. Bu ilke de sanat yapıtının şimdilik ve buradanlığı ile atbaşı gitmektedir. Bir sanat yapıtı bir adet ve özel olmalıdır ki sadece bir lokasyona özgü olarak orda varlığını namı diğer şimdilik ve buradanlığını sürdürebilsin.</p>
+            <p>Sanat yapıtının aynı anda iki yerde olması onu sanat yapıtı yapan aurasına zıttır. Sözüm ona Lisa Louvre Müzesi’nden dışarıya adımını attığı anda aurasını müzenin kapıları ardında bırakacak ve kendini kendi yapan en büyük ilkeye sırtını çevirecektir. Aynı tanrıyı öldürmenin anahtarı olan o ilkenin yürürlüğe girmesi gibi.</p>
+            <p>İşte medya tam da bu günahı işlemiştir. Şimdilik ve buradanlık ilkesini hiçe saymış ve bu da dolaylı yoldan auranın ölmesine neden olup sanat yapıtının ruhuna bir hançer daha saplamıştır. Reprodüksiyon uygulamaları Lisa’yı Louvre Müzesi’nden ayaklanıp kaçmadan da bizim yanımıza getirmeyi vaat etmiş ve bunu da pek ala başarılı şekilde yerine getirmiştir.</p>
+            <p>Artık herkesin bir Lisa’sı vardır. Ve herkes onunla istediği her şeyi yapabilir. Bu şeffaflaşma ve pürüzsüzleşme onu kirleten başat unsurdur. Kapitalizm çağında bu aura daha da bozulup ayaklar altına alınmış olup Lisa asla dönülmeyecek anlam bozumu eşiğini çoktandır geçmiştir.</p>
+            <p>Şimdilik ve buradanlığı anlam bozumuna en çok uğratan kavram hiç şüphesiz yeniden üretimdir. Yeniden üretimse gözünü hırs bürümüş kapitallerden başkasını memnun etmez. Tek geçer akçe, tek gereklilik kapitalizmin çarklarının dönmesidir. Bu yolda feda edilen her şey de mübahtır.</p>
+            <p>Reprodüksiyon veya namı diğer yeniden üretim şimdilik ve buradanlığın büyüsünü bozduğu gibi onu kendi kötü emelleri için kullanmayı da es geçmemiştir. Yeniden üretim süreci sonucunda Lisa sırdan bir meta olmanın ötesine geçememiştir. Özellikle bu anlam yitimi onun bir tablo olarak kirlenmesinin de ötesindedir. Belki Louvre Müzesi’nin o kalifiye duvarlarından alınmış olabilir ama şu anki konumu çok daha endişe vericidir. O artık tuvaletlerde, benzin istasyonlarında, ilk okul mevzunu şahsın odasını süslemektedir. Günümüz yapay zekâ çağında girebileceği sayısız ve ahlaksız formu saymıyorum bile…</p>
+            <p>Görüldüğü üzre, aura solumu kapitalizmin çarklarını döndüren bir yakıttan başka bir ehemmiyeti olmayan bir devindiriciden fazlası değildir. Kapitalizm Lisa’yı kendi soğuk ve demir dişlilerinde ezmiş, onun aura suyunu sıkmış ve onu pek ala kar odaklı bir anlam bozumunun kirli oyununa alet etmiştir.</p>
+            <p>Anlam bozumu burada da kalmayıp anlam yitimine uğrattığı bu nevi şahsına münhasır kavramların formunu da bozmuştur. Söz gelimi; biriciklik yerini kitleselliğe bırakmış olup herkesin istediği şeyi yapabileceği bir Lisa’nın varlığını meşru kılar.</p>
+            <p>Demokratikleşme beraberinde seviyesizleşmeyi de getirmiş olup Lisa’nın kült değerini iki paralık etmiş, onun şimdiki değerini kırtasiyelerde basılan A4 kağıtlarının satış fiyatlarına indirgemiştir. “Senin de bir Lisa’n olsun” sloganları kült değerine vurulan en büyük çividir. Onu sergilenmeye iteleyip; tarihi arka plan gibi değerli anlamları hiçe sayan bir cellattır.</p>
+            <p>Bu da ritüelliğin sökümüne ve Lisa’nın tabutuna vurulan son çiviye getiriyor bizleri. Ritüel önemli bir kavramdır ve aura ile kol kola gider. Ritüel kutsal bir çaba, bir erişim mücadelesidir. Sözüm ona şimdi ve buradanlığını koruyan Lisa’yı görme istenciyle yanıp tutuşan aşıkların kat etmesi gereken bir törendir.</p>
+            <p>Ne var ki günümüz medyası bu ritüeli de iki paralık etmenin ve Lisa’yı ayağımıza kapanan bir hizmetçiden fazlası yapmamayı da pek ala çok güzel becermiştir. Gerçekten tebrikler…</p>
+            <p>Elimizde ne kaldı diye dönüp baktığımda metalaşmaktan ve sergi değerinden başka bir şey göremiyorum. Lisa adeta gönül eğlendiren fetişik bir objeden, parasını veren herkesin emrine giren ve kirlettiği değersiz bir objeden fazlası değil. Hele ki bir sanat yapıtı hiç değil. O köprünün altından çok su aktı. Biz çoktan Lisa’yı yaktık ve küllerinin o nehirdeki dalgalanışını, o güzelliğin son dansını izliyoruz.</p>
+        </div>
+        
+        <div id="article-2">
+            <p>Yeni medya hiç şüphesiz ki hayatımızın büyük bir parçasını etkilemektir. Ne var ki, insanların neyin yeni medya olduğu, neyin geleneksel medya olduğu konusunda hala soru işaretleri vardır.</p>
+            <p>Bu rehberde yeni medyayı neyin yeni yaptığı, geleneksel ile yeni arasındaki ayrımın nelerden ibaret olduğu Lev Manovich’in “Yeni Medyanın Dili” eserinden yola çıkılarak anlatılacak ve detaylandırılacaktır.</p>
+            <h2>Yeni Medya Nasıl Yeni Oldu</h2>
+            <p>Söz konusu “yeni” kavramını kavramak metnin bütünlüğüne olunan hakimiyeti artıracağından mütevellit öncelikle yeni medyayı “yeni” yapanın ne olduğuna merceklerimizi çevirmek en doğrusu olacaktır.</p>
+            <p>Aslında buradaki geleneksel ve yeni ayrımı sanıldığının aksine oldukça kolaydır. “Yeni” ile kastedilen şey temaşa etme sürecinden ibarettir. Bu sürece üretimi de katabiliriz ama bu ürünün tamamen orijinal bir ürün olma zorunluluğunun olmadığının altını çizmemiz gerekir. Söz gelimi, Beyond The Heavens veya Ascension gibi operaların yeni medya araçlarıyla icra edilmesi gibi bir zorunluluk söz konusu değildir. Söz konusu eserler her zaman olduğu gibi enstrümanlar ve opera sanatçılarıyla icra edilmeye devam etmektedir.</p>
+            <p>Asıl ayrım notalara dökülen ederin temaşasında yatmaktadır. Söz konusu eserimizi plaktan ziyade verilere aktarılmış bir ortamda dinlediğimiz zaman yeni medyanın dahiliyetinden söz etmek mümkün olur.</p>
+            <p>Her ne kadar daha sonra detaylandırılacak olsa da üretilen ürünün bir plak veya kaset türevi anolog bir araçtan temaşa edilmektense veri bazlı bir sanal ortama aktarılıp temaşa sürecinin yeni bir forma bürünmesi bizler için elzem olup, yeni-eski ayrımını da bu çerçeveye oturtmaktayızdır.</p>
+            <p>Anolog veya tahmin edilebileceği üzere sanal bir ürün yeni medya dediğimiz sanal ortama açılan kapı ve araç gereçlerle temaşa edildiği taktirde ürünün yeni medya ürününün malı olduğunu gönül rahatlığıyla söyleyebiliriz.</p>
+            <p>Bu kıstasları teker teker masaya yatırmak ve ameliyattaki bir doktor misali birer birer incelemek metnin akıcılığı ve anlaşılırlığının avantajına olacaktır. Manovich’in de eserinde altını çizdiği gibi her bir ilke bir önceki ilkeyi beslemekte yani onun sonucu olmaktadır. Söz gelimi bu sıralama keyfi yapılmamakta bilakis konunun anlaşılması için azami öneme sahip olup önemlidir.</p>
+            <p>Bu ilkelerden ilki sayısal temsildir. Bu kavram her yeni medya unsurunun binary veya ikili kod yapısı ile örülü bir ağa sahip olduğu anlamına gelmektedir. Medyada ne üretirsek üretelim bir kod kullanmakta olup ikili sistemin sınırlılıklarını iliklerimize kadar da hissetmekteyizdir. Tabii bu olumsuz bir yönden ziyade içeriklerin üretim dili olup sayısız olumlu sonucu da beraberinde getirmektedir. Sayısal temsil, söz konusu ilgili alanlarda yapılan değişikliklerle her bir ürünün son kullanıcı tarafından değiştirilebilir oluşunun önünü açıp, daha sonra değineceğimiz eş yaratıcılık statüsünün de kapılarını araladı. Artık herkes bir orkestra şefi olabilmekte kendi Ascension veya Beyond The Heavens’ını üretebilme kapasitesine erişti.</p>
+            <p>Çünkü sayısal temsil nerdeyse her şeyi sanal medyaya taşımayı mümkün kılıp analoğa olan bağımlılığı ortadan kaldırdı. Artık herkes kendi müzik şefine dönüşme fırsatı yakalarken kendi küçük bilgisayarlarının içindeki minyatür sanatçıların müzik şefi olma şerefine nail oldu.</p>
+            <p>Bu da yeni medya dünyasında her şeyin binary kodlardan oluşmasının yani ikili bir kod diziminin bu dünyanın havası, toprağı ve suyu olmasından ola gelmektedir. Doğru düzenlemelerle bu dünyada her şey şekillendirilebilir. Adeta girdiği kabın şeklini alan su misali.</p>
+            <p>Nasıl ki bir koro da sayısız enstrüman ve solist varsa medyada da işler benzerlik gösterir. Yeni medya içerisinde kodlara form verilerek üretilen her içeriğin parçalı bir yapısı vardır ve biz buna birimsellik deriz.</p>
+            <p>Yeni medyanın içindeki o küçük ikili yapı ile kuşatılmış dünyadaki her bir nesne küçük birimlerden ve o küçük birimler de daha küçük birimlerden meydana gelmektedir. Sayısız küçük yapılı birimin bir araya gelmesi, daha büyük bir birimi meydana getirirken, o söz konusu daha büyük birimler de çok daha büyük birimlerin doğumuna gebedir.</p>
+            <p>İşte birimselliğin büyüsü de buradan gelir. Küçük ve tek başına anlamlı da olsa bir araya gelince daha büyük ve çok daha anlamlı hale gelen birimlerin harmonisi. Adeta sözüne ettiğimiz koroda olduğu gibi.</p>
+            <p>Buradaki can alıcı kısmı kaçırmamak hayati ve bir o kadar da elzemdir. Yeni medya elemanlarından her biri kendi başlarına anlamlı olma vasıflarını bünyelerinde muhafaza etmektedir. Koro örneğinin yeni medyayı anlatırken kullanılan metafor olmasının ve bu iki kavramın atbaşı gitmesi de bundandır.</p>
+            <p>Nasıl ki bir koroda her bir enstrüman ve her bir korist kendi başına son derece değerli bir iş yapmakta ve her birini tek başına dinlemek bile temaşa edeni zevkin doruklarına çıkarmaktaysa, medyada da benzer bir hikâye yatmaktadır.</p>
+            <p>Verilen örnekte üstünde durulduğu gibi, her bir korist ve her bir enstrüman kendi başına çok kıymetliyse ve her birini ayrı ayrı dinlemek bile temaşa edene büyük bir zevk vermekteyse medya da bunun aynısını son kullanıcıya yapmaktadır. Tek fark birinin çarkları analog şekilde dönerken, birinin sayısal bir ortamda binary kodlar aracılığıyla dönmesidir.</p>
+            <p>Yeni medyada dönersek, bu birimsellik bahsedilmesi gereken bir alametifarikaya ev sahipliği yapmaktadır. Söz konusu birimler birbirinden bağımsız olarak depolandığından mütevellit, üretilmiş son ürünün tamamı değiştirilmeden de istenilen veya uygun görülen parçalar üzerinde çeşitli oynama ve değişikliklerin yapılması mümkün olur.</p>
+            <p>Koro örneğimize geri dönelim. Bir DJ tamamen sanal ortamda gerçeği simüle eden sesler üretebilmekte ve bu sesleri ayrı ayrı kendi süzgecinden geçirebilmektedir. İsterse yarattığı parçaya bir keman tınısı veya bir piyano tınısı ekleyebilir. Ya da tamamen başka şarkı için bestelenmiş sözleri kendi şarkısında adapte edebilir. Bu özgür yaratım süreci tamamen birimselliğin sonucudur.</p>
+            <p>Her bir çarklı kendi başına da değirmeni döndürebilmekte, ne var ki bu çarklı mükemmel şekilde diğer çarklılarla da entegre olup un öğütme sürecine kaldığı yerden ve hiçbir aksama olmadan devam edebilmektedir. Görüldüğü üzre DJ kendi müziğini bu takmalı ve çıkarmalı dişli sistemi neticesinde hiçbir engele takılmadan icra edebilmektedir. Her bir enstrümanı çalmayı bilme zorunluluğu gitmiş, yerine sınırsız yaratıcılığı besleyen uçsuz bucaksız bir dünya gelmiştir. Bu da bizi bir sonraki maddemize getiriyor.</p>
+            <p>Yeni medyanın bir diğer özelliği de otomasyona izin vermesidir. Otomasyon aslında demin üstünde durduğumuz süreçle atbaşı gitmektedir. Temelde bu kavram üretim süreçlerinin otomatikleştirilmesi anlamına gelmektedir. Yeni medya çağına başka bir isim verilecek olsa ona; şablon veya algoritma çağı dememiz abes kaçmazdı.</p>
+            <p>Söz konusu DJ örneğini bir kez daha gözümüzün önüne getirelim. Onun eş yaratıcı olduğundan, hiçbir enstrümanı çalmak veya bilmek zorunda olmadığından ve bunun neticesinden yaratıcı sürece tam anlamıyla kanalize olabildiğinden bahsetmiştik.</p>
+            <p>İşte her bir süreç aslında otomasyonun sağladığı rahatlık neticesinde hayat bulmaktadır. Artık günümüzde kullanıcılar hiçbir şeyi sıfırdan üretmek mecburiyetinde değildir. Onların emrinde olan sayısız önceden üretilmiş içerik, filtre ve şablon zaten emirleri altındadır. Bu da yaratıcı sürecin ve potansiyelin hiç olmadığı kadar aktif kullanıldığı bir dünyaya bizi götürmektedir.</p>
+            <p>Bir DJ şarkısını üretirken piyanoyu kendisi çalmıyor. Alanında uzman kişi tarafından çalınan piyano DJ’in ellerinde yeniden hayat buluyor. Veya DJ kusursuz sesi ile dinleyenleri büyülemenin derdine düşmektense hali hazırda sesi kaydedilmiş koristin sesini çeşitli filtrelerden geçirerek piyanoyla kusursuz denebilecek bir şekilde tekrardan hayata döndürüyor.</p>
+            <p>Otomasyon, eş yaratıcılarını; geçmişte büyük çaba isteyen, günümüzde ise “angarya” olarak adlandırılacak birçok uğraştan kurtararak tamamen yaratıcılığı beslemektedir. Algoritma veya şablonlar yaratıcı sürece katılarak aklımıza bile gelmeyecek sayısız olumsuzluğu daha gerçekleştirmeden kaldırmakta, günümüzde arşa çıkmış yapay zekâ yolumuzdaki tüm taşları kaldırarak bizlere güvenli bir patikada yürüme imkânı sağlamaktadır. Bu ve bunun gibi otomasyon araçları yanlış kişinin ellerinde bir tembellik veya miskinlik aracı olabileceği gibi, doğru kişinin ellerinde de üst düzey yaratıcılık süreçlerinden geçmiş ve kalite kokan ürünlerin son kullanıcıyla buluşmasını teşvik edebilir.</p>
+            <p>Sıradaki kavramımız değişkenliktir. Değişkenlik metin boyunca birçok noktada kendini hissettirse de şimdi daha detaylı incelenecek ve önemi bir kez daha aktarılacaktır.</p>
+            <p>Değişkenlik yeni medyanın imza niteliğidir. Bu kavram sonucunda yeni medya hiç olmadığı kadar demokratikleşmiş ve hiç olmadığı kadar kullanıcı dostu olmuştur.</p>
+            <p>Öncelikle bazı gerçekleri gün yüzüne çıkararak işe başlayalım. Yeni medya içerisinde üretilmiş ve halka mal edilmiş hiçbir içerik tamamen sabit kalmaz. Söz konusu içerik paylaşıldığı, yani var olduğu andan itibaren bir kamu malına dönüşmüş ve sayısız kullanıcının erişimine sunulmuştur.</p>
+            <p>Her bir video, her bir fotoğraf ve her bir ses kaydı yasal koşullar sağlandığı ölçüde kullanılabilir ve yeniden üretim süreçlerini besleyebilir. Durağanlık, yeni medya teknolojileri sağ olsun artık akla bile gelmeyen bir olgu olmuştur.</p>
+            <p>Söz konusu DJ, başka DJ’lerin içeriklerinden etkilenebilir, o içeriklerin belli parçalarını kendi eserinde yeniden akışa sokabilir. Zaten daha önce bahsettiğimiz modülerliğin çekiciliği de buradan gelir.</p>
+            <p>Her bir parça nevi şahsına münhasır şekilde varlığını sürdürmekte ve kendinden hiçbir şey kaybetmeden sayısız şekilde çoğaltılıp sayısız şekilde de kullanılabilmektedir. Yeni medyanın büyüsü tam da burada yatmaktadır.</p>
+            <p>Rastgele bir parçanın içerisinde çalan bir keman tamamen rastgele ve bambaşka bir parçada yeniden hayat bulabilir. Ve bu ne o söz konusu parçaya ya da kemana zarar verir. Aksine bu demokratikleşme yeni medyanın en çekici yönlerinden biridir hiç şüphesiz.</p>
+            <p>Uçsuz bucaksız bir içerik havuzu, uçsuz bucaksız kombinasyon şansı ve yaratıcılığa izin verip onu agresif şekilde cesaretlendiren yeni medya. İşte bu tam da yeni medyanın hedeflediği ve olmayı arzuladığı cesur yeni medya tasvirine en çok yaklaştığımız andır.</p>
+        </div>
+
+        <div id="article-3">
+            <p>Yeni medya çağında gerçekliğin sınırlarının zorlandığı doğrudur. Ne gerçek ne değil, hala kestirilebilse de ikili arasındaki ayrımın inceldiği aşikardır. Burada simülasyon ve simülakr kavramı karşımıza çıkmaktadır. Bu iki kavramı anlamak, içinde yaşadığımız medya aldatmacasını anlamak için de hayatı bir role sahiptir.</p>
+            <p>Temelde simülasyon, hali hazırda cisimsel dünyada var olmayan, bulunmayan bir nesne ya da ortamın bir araç, bir makine veya bir bilgisayar programı aracılığıyla yapay ve gerçek dışı şekilde yeniden üretilmesinden ibarettir.</p>
+            <p>Asıl ikilem de burada doğmaktadır. Söz konusu trickster o denli başarılıdır ve günümüzde daha başarılı olmaya devam ediyordur ki, gün be gün daha çoklarımız onun yalanına kanmadan edemiyoruz. Çünkü, simülasyonlar bize gerçekliğin bir replikasını, kopyasını sunmanın ötesinde bir şeyler yapar.</p>
+            <p>Onlar bize gerçekliği nasıl görmek istiyorsak öyle görme şansını bahşederler. Dürüst olmak gerekirse, kim bu acı dolu çukurdan kurtulmak istemez ki? Sirenlerin bu melodisinin güzelliği ve çekiciliği tüketiciyi esiri eder. Sunulan bu vaatler onu kıskıvrak yakalar.</p>
+            <p>Günümüz de sirenlerin en büyük yardımcısı dost Big Brother’ın da sahneye çıkmasıyla bu şarkılar dur durak bilmez ve her bir önceki solodan daha çekici ve karşı konulmaz olur. Ancak bu gerçekliğin çoktandır anlam bozumuna uğradığı açıktır.</p>
+            <p>Söz konusu gerçek ne bizlere bahşedildiği gibi gerçektir ne de söz konusu sirenler kendilerini bize sundukları kadar güzel ve masum. Onlar sadece bizim kanımızı emen vampirlerin Reenkarnasyona uğramış halleridir o kadar. İstediği kadar güzel görünmeye çalışsın ya da makyaj yapsın fark etmez. O bizim cüzdanımıza ve mahremimize göz koymuş ve bizi denizin dipsiz derinliklerine çekmek isteyen aynı sirendir.</p>
+            <p>Bu gerçeklik pek ala anlam bozumuna uğramıştır, burası kesindir. Ama medyanın kirli oyunları burada da bitmez. Yeni medya çağındaki gerçek, sadece anlam bozumuna uğramış sırdan bir gerçek değildir. Aksi taktirde kitleleri bu denli peşinden sürükleyemezdi. Bu kirli oyuna alet olan gerçeklik çok daha büyük bir manipülasyonun pençesine düşmüştür.</p>
+            <p>Sirenlerin şarkıları tarafından kirlenen gerçeklik, gerçekliğini meşru kılan kökenden yoksun bırakılmış bir gerçekliktir. Bu sulandırılmış gerçeklik, o çok yüce medya araçları tarafından orijinalinin mükemmel şekilde replika edilmesinden oluşan günahkâr bir evlattan fazlası değildir. Simülasyonun en büyük oyunu da budur.</p>
+            <p>Simülasyon bu tiyatro oyunundaki sahneleyicidir. Profesyonelliği daha düşüktür ve insanlar gerçek ile sahte arasındaki farkın ayırdındadır. Ancak simulakrda işler bu denli parlak değildir. Simulakr gerçek olarak algılanmış, anlamın ötesine geçmiş ve güruhlar tarafından gerçek olarak damgalanmış görünümler, küçük dünyalardır.</p>
+            <p>Tele ekranlar da bu uğraşta en büyük günahı taşırlar. Herkes ellerine sığan telefon ekranlarında bir simülasyonun içinde olduğunun ayırdındadır. Alan kontrolü kullanıcıdadır ve ekran ile gerçeklik arasındaki ayrım sanıldığı kadar incelmemiştir.</p>
+            <p>Kullanıcı isterse kafasını ekrandan kaldırabilir, yanındakiyle konuşabilir ya da dışarının sesini işitebilir. Telefonu tuttuğunun ya da bir tutucuya tutturduğunun ayırdındadır. Evet belki içinde bulunduğu o telefon ekranındaki dünya gerçek değildir ve sayı kümelerinden oluşmuştur. Ne var ki bu sayı kümeleri gerçekliğe büyük denli bir müdahalede bulunmamıştır.</p>
+            <p>Kullanıcı sözüne edildiği gibi; isterse arkadaşıyla konuşabilir, isterse ayağını kaşıyabilir, istese de kalkıp mutfağa gidebilir. Simülasyonda interaktif bir şov vardır ve biz onu izlemek veya müdahalede bulunma imkanına sahibizdir. Buradaki en can alıcı nokta o dünya ile bizim dünyamızın ekran ile birbirine bağlandığının farkında olmamızdır.</p>
+            <p>Kendimizi söz konusu video oyununa ne kadar kaptırırsak kaptıralım hala benliğimizin hatırı sayılır parçası somut dünyaya aittir. Simülasyon evreninde kullanıcı “miş” gibi yapıldığının ayırdındadır. Medyanın yabancılaştırma aygıtları onu henüz denizin dipsiz derinliklerine çekememiştir.</p>
+            <p>Ne var ki, gözünü hırs bürümüş kapitalizm asla yerinde saymaz ve her zaman ilerlemenin(!) bir yolunu bulur. Simülasyon 2.0’ın da alametifarikası minyatürleşmedir. Minyatürleşme dost big brother ile atbaşı gider ve özel hayat suistimalinin bir üst noktası, şeffaflaşma ve pürüzsüzleşme yolundaki kusursuzlaştırma(veya yontma) aşamasındaki bir sonraki adımdır(bileme taşıdır).</p>
+            <p>Minyatürleşme dost big brother’ı ceplerimize soktuğu gibi, kendi hırslarını da cebimize sokmuştur. Minyatürleşme daha önce eşi benzeri görülmemiş bir hızı da hayatımıza sokmuş ve bizi hızın kölesi yapmıştır.</p>
+            <p>Sözüm ona; yoğun mesailerimizde bize eşlik eden çift kavrulmuş tek yudumluk filtre kahveler, tek atımlık tost ekmeği, tek seferlik sürülmelik tereyağı ve reçel… bunların hepsi kapitalizmin hırsını beslemeye ve bizi daha başarılı(!) bir tüketiciye dönüştürmek için geçtiğimiz testlerdir. Tüketim toplumunda bu testler hayatidir. En son Iphone’u en hızlı sen aldıysan, sen kazanansındır. Tebrikler! Ancak biraz bile geciktin mi? BIZZTTTT!! bu toplumdan atılman ve değersiz bir objeye dönüşmen an meselesidir.</p>
+            <p>Minyatürleşme her birimizi kendi celladımız olan dost big brotherlar ile yalnız bırakmasının ötesinde bizi kendi yalnız panoptikonumuzda, daha doğru bir ifadeyle sinoptikonumuzda, hatta ve hatta daha doğru bir ifadeyle dost big brotherın gardiyanı olduğu omniptikonun kölesi etmiştir. Minyatürleştirmenin fetişik zevki buradadır. Her an seni gözetleyen celladının soğuk bakışlarını ensende, hatta gözlerinin içinde, ruhlarının derinliklerinde hissetmen.</p>
+            <p>Minyatürleşme olsa olsa simülasyonlaşmaya hizmet eder. Ondan sonraki durak da simülakrdır. Minyatürleşme ve dost big brother’ın dahiliyeti bizim savunma mekanizmamızı kırmaktan başka bir işe yaramaz. Minyatürleşme; konforu, konfor da bağımlılığı destekler.</p>
+            <p>Günümüzde dost big brother sadece hücre kapımızda değil, hayatımızın her alanına öyle bir nüfuz etmiş varlığını öyle içselleştirmemize neden olmuştur ki, kendimizi o delici bakışları isterken buluruz.</p>
+            <p>Elimizin altında her an hazır ve nazır bulunan bir asistan. Dost big brother kendini bu şekilde sevdirir. O makyajlanış bir sirenden fazlası değildir. Ne var ki konforun cazibesi çoktandır son kullanıcıyı zincirlerinin kölesi etmiştir. Minyatürleşme elimizde tuttuğumuz ekranları gözümüzün içine sokmuştur ve bize bir bakış boşluğunu, bir oksijen alma şansını bile çok görür.</p>
+            <p>Simülakrın cazibesi gözümüz ile ekran arsındaki o azıcık olan sınırı da ortadan kaldırması ve bizi tam anlamıyla kendi içinde almasıdır. Ne var ki günümüzde bunu artık gizliden yapma gereği bile duymadan bizi alenen kendi kölesi etmektedir.</p>
+            <p>Gözümüzün içindeki ekranlar bizi gerçeklikten koparırken aynı zamanda bizi gerçekliğin bir parçası da yapar. Ne de olsa kendi içinde sayılardan ve algoritmalardan oluşmuş bir gerçekliği barındırdığı sır değildir.</p>
+            <p>Bu algoritma beraberinde hızı da getirir. Küçülmüş ve gözümüze girmiş olan big brother’ın bizim hantallaşmış ve ampütasyonlaşmış zihnimizden hızlı olduğu su götürmez bir gerçektir. O yüzden biz ne zaman hücremizden kaçmaya yeltensek bizi bir reklam arası süresinde yakalayıp tekrardan hücremize paketlemeyi pek ala iyi bilir.</p>
+            <p>Hız simülakrın ön koşuludur. O enformasyon yığını içinde birey düşünme yetisini kaybeder ve kendi zihnine yabancılaşır. İşte bu ampütasyonlaşmanın büyüsü burada gizlidir. Bizi gözümüze, kendimize ve ait olduğumuz dünyaya yabancılaştırmasında.</p>
+        </div>
+
+        <div id="article-4">
+            <p>Bizi gözümüzden başlayarak kendi içinde hapseden ekranlar bizleri bir o kadar da sanal dünyada özgür kılar. Onun diyalektik yapısı da buradan gelir. Koltuklarımıza hapsolmamızın kefaretini, sanala dünyada sörf yaparak öderiz.</p>
+            <p>Ancak bu sörfün yalnızca sanal dünya ile sınırlı kaldığını söylemek yalan olacaktır. Söz konusu minyatürleşme ve hız bu sörfün gerçek hayata sirayetini de mümkün kılmıştır.</p>
+            <p>Bu hızlı ve tehlikeli sörfün ekranlar aracılığıyla gerçekleştiğini söyleyebiliriz. Bu söz konusu ekranlar, bizleri gerçek dünyadaki izleyiciler olma konumundan bir adım öteye taşıyarak bizleri somut dünyadaki karar mercileri haline getirirler.</p>
+            <p>Bu gerçek dünyaya sirayet etmenin 3 farklı boyutu vardır: tele görme, tele bulunma ve tele eylem. Her biri kendi nevi şahsına münhasır olmakla birlikte, sanal dünyadaki kullanıcının gerçek hayata olan etkisi yönünden Azrail kadar can alıcıdır.</p>
+            <p>Bu söz konusu eylemler kast sistemi misali bir hiyerarşik bir piramitte ikamet etmektedirler. Etki düzeyi sınırlıdan nerdeyse sınırsıza kadar sıralanacak olsa bu şöyle olurdu: tele görme, tele bulunma ve tele eylem.</p>
+            <p>Her biri medya dolayımındaki kullanıcının somut ortamı farklı bir şekilde temaşa etmesini ve ona farklı düzeylerde etki etmesinin imkanını da beraberinde getiriyor. Bu kavramları doğru analiz etmek ve anlamlarını belleğimize kaydetmek yaşadığımız sanal temelli enformasyon toplumunu da bir o kadar eksiksiz algılamamızda hayati rol üstlenmektedir.</p>
+            <p>Her bir tele kavramı Geroge Orwell’in ünlü 1984 romanındaki tele ekranlar kadar fütüristik ve hayal gücünün sınırlarını yer yer zorlayabilmektedir. Ancak söz konusu hiyerarşik sistem onları gruplandırarak anlatımı ve anlama edimini kolaylaştıracaktır.</p>
+            <p>En temelde tele görme ile başlayalım. Buradaki semantik bakış açısı son derece kolaydır. Kelimenin anlam yapısına baktığımızda tele; uzak, uzaktan veya remote anlamlarına karşılık gelmektedir. Yani bir şeye fiziki, ruhsal veya duygusal olarak uzaklığı temsil eder.</p>
+            <p>Bizim buradaki kullanım pratiğimizde fiziki, somut dünyadaki uzaklığı ifade etmeyi hedefliyoruz. Bütüne bakıldığında tahmin edilebileceği üzre tele görme, ekranlar aracılığıyla yapılan uzaktan görme edimine karşılık gelir.</p>
+            <p>Kişi ister evinde ister ofisinde, isterse de dünyanın öbür ucunda olsun, ekran aracılığıyla o anlık fiziksel olarak bulunamayacağı bir yeri veya konumu gözetmesi, bu eylemi tele görmenin sınırları içinde sokar.</p>
+            <p>Kişinin sevdiği biriyle görüntülü konuşma yapması, bir gezi rehberini izlemesi veya müze turunu izlemesi tele görme sınırları içinde mantık ve anlam kazanır. Tele görme gözün o anda ve saniyede, bulunmayı asla hayal dahi edemeyeceği yerlerde bulunup tabiri caizse oranın havasını solumasını sağlayan bir gezidir.</p>
+            <p>Bu edimi simülasyon kavramıyla zenginleştirip tele göre edimine VR teknolojileri de dahil edebiliriz. Bu söz konusu simülasyon turunda bizler bir çift gözden veya kameradan fazlası değilizdir. Yaptığımız veya yapabildiğimiz yegâne şey akan görüntüler(enformasyon) selinde yolculuk etmek ve boğulmadan bu sürüşü sona erdirmeye çalışmaktır.</p>
+            <p>Bir sine-göz’ün gördüğünden ve yapabildiğinden fazlasını yapabilmemize olanak sağlayan bu sanal tur, bize orda olmanın neye benzeyebileceğini deneyim ettirerek ağzımıza bir parmak bal çalmakla yetinir. Asla bulunamayacağımız yerlerde olmanın ve onları görmenin büyük zevkini…</p>
+            <p>Tele bulunma ise biraz daha çetrefillidir. Tele bulunma, adından da anlaşılabileceği üzre kişiyi orda var etmenin yolunu bulmuştur. Belki kişi oradaki insanlarla konuşamıyor veya onlarla etkileşime geçemiyordur ama kesinlikle orda olmanın kısıtlı deneyimini yaşayabilmektedir.</p>
+            <p>Bu deneyime verilebilecek en güzel örnek kameralı dronlardır. Kameralı dronun pilotu istediği yere gitmenin ve istediği yerde bulunmanın sınırsız özgürlüğüne sahiptir. Adeta drona monte edilmiş bir göz misali istediği mekânı görme ve istediği yerde bulunmanın sınırsız özgürlüğü işe çepeçevre sarılmıştır.</p>
+            <p>Tabii, gözün olduğundan farklı şekilde çalışması ve teknoloji dolayımlı bu upgrade’i insan gözünü ampütasyonlaştırır. Ne de olsa insan gözü sınırlıdır ve nerde başlayıp bittiği bellidir.</p>
+            <p>Belki homoerectus oluşumuz görüş açımızı belli bir oranda arttırıp bizi kendinin ve çevresinin daha farkında bir bireye dönüştürmüştür ama temelde gözün sınırlılıkları ve fâniliği asla yakamızı bırakmayan acı bir gerçek olarak gözlerini üstümüze dikmiştir.</p>
+            <p>İnsan evrim ağacının dallarında istediği gibi oynasın fark etmez. Gözünün sınırları ve sınırlılıkları her zaman bir utanç gibi yüzüne çarpacaktır.</p>
+            <p>İşte tele bulunma gözü sınırlılıklarının zincirinden kurtarmak için bir kurtarıcı vazifesi üstlenmiştir.</p>
+            <p>Tele bulunma, insana nerde olursa olsun fark etmez doğru şartlar sağlandığında dünyanın öbür ucundan öbür ucuna gözün transferini ve onun üstündeki tam kontrolü de daimiyetini sağlamıştır.</p>
+            <p>Ne var ki insan hırsı burada dur durak bilmez. Bu kadar yaklaşmışken olmaz. İstediği anda istediği yerde var olabilen ve tanrıdan Omnipresence sıfatını elmayı çaldığı gibi çalan insan şimdi de Omnipotence sıfatını gözüne kestirmiştir.</p>
+            <p>Bu arzunun yakarışları cevapsız kalmamış ve tele eylem bir mesih misali homoerectus’a el sallamıştır.</p>
+            <p>Bu eşikten sonra istediği her yerde bulunabilen insan, istediği her yerdeki olguya da müdahale etme hakkını kendinde görmüştür.</p>
+            <p>Tele eylem, bulunmanın ötesinde orda olmanın ve icraatte bulunmanın da özgürlüğünü kullanıcısına bahşetmiştir.</p>
+            <p>Tele eylem tehlikeli bir kavramdır. İnsanın bulunulurluk ilkesini ortadan kaldırdığı gibi başkalarıyla veya çevreyle kurulması olası empatinin de üstünü örter. Bu eylem artık anonimleşmekle kalmayıp vicdani sorumluluğun da yitimiyle sonuçlanır.</p>
+            <p>Belki hayatında asla yere çöp atmayacak biri drone’undaki çöp haznesini açmaktan tereddüt etmez. Ne var ki, keşke her şey bir kapak açmak kadar naif olabilse. Kapağın açılması kadar kapağın altında ne olduğunun da bir o kadar önemi vardır. Bu sorumluluğa yabancılaşma ve ampütasyonlaşıp empati yeteneğini kaybeden insan, kapağın altında ne olursa olsun onu açmaktan ve bir tuşa basmanın konforundan kendini alamaz. İşte gameifivation’ın gerçek zaferi ve şeytanlığı burada yatar.</p>
+            <p>Tele olgusu son tüketiciyi sanat yapıtından yabancılaştırmak dışında çok az şeyi başarmıştır. Zaten müzelerde bir meta gibi sunulan sanat yapıtları şimdi de demokratikleştirilmenin lekesini bünyesine almış ve utancı hat safhada yaşamaya mahkûm edilmiştir. Günümüzde kapitalizm ve demokratikleştirilme ile tabuta konulan sanat yapıtına tele kavramları da son çiviyi çakmaktan fazlasını yapamamıştır.</p>
+            <p>Tele görme ile milyonlara açılan müze ve sanat yapıtları değersizleşmiş ve herkesin konuşabileceği sıradan bir objeye dönüşerek kült değerlerini kaybetmiştir. Herkesin o eseri görmesi ve kendi çirkin ağzına sakız etmesiyse sanat yapıtının güçle yanan aurasına hayati bir darbe vurmuştur.</p>
+            <p>Tele bulunma sanat yapıtının ritüelini iki paralık etmiş ve o tarih kokan atmosferi koltuğunda yatan son kullanıcının ayağına getirerek kendine ve sevenlerine hakaret etmiştir.</p>
+            <p>Güç bela o sanat yapıtını gören, uçak biletleri alan, sırada bekleyen ve onun kutsal havasını koklayan insanların emekleri bir gecede hiç edilmekle kalmayıp, minimum efor ile ulaşılabilirliği garanti ederek sadece onun gerçek aşıklarına hakaret etmiştir.</p>
+            <p>Zaten reprodüksiyon ile ölen aura, tele bulunma ile ritüelini de kaybetmiştir. Tele eylemin riskiyse her birinden büyüktür. Koca koca atom bombalarının atıldığı bu dünyada, o atom bombalarının bir simülasyonmuşçasına gamificationlaştığı savaş ortamlarında olmaz denilen olmuş ve dünyaların Azrail’i ölmekte olan dünyamıza bir kurşun daha sıkmıştır.</p>
+            <p>Bu denli anlam yitimine uğramış, dijitalleşmiş ve değeri iki paralık edilmiş simülasyonun ve simülarkın akraba evliliğinden doğmuş bu sakat dünyada tele eylemin daha nelere gebe olduğunu söylemek imkansızdır.</p>
+            <p>O sakat çocuklardan biri, o en büyük günah bir kez Japonya’da doğmuştur. Ve hiç kimse sıradakinin Paris’te doğmayacağının garantisini veremez. Bu denli yabancılaşmış ve ampütasyonlaşmış bir dünyada bu olanaksızdır.</p>
+        </div>
+
+        <div id="article-5">
+            <p>Yeni medyaya tek bir anlam atfedecek olsak bu kesinlikle hız olurdu. Yeni medya, geçmiş dönemlerdeki zincirleri kırmış, insanları akışın birer parçası haline getirmiştir. Her bir içerik ve sunum akışı kutsallaştırır ve besler.</p>
+            <p>Akış kesinlikle durağan değildir. Yeni medyanın cazibesi buradan gelir. Kullanıcının eş yaratıcı olduğu medya 2.0’dan beri her birimiz yarı zamanlı bir medya işçisi konumuna terfi ettik. Sosyal medyada içerik üretmemizin veya üretmememizin bir önemi yok. Youtube platformunu her açışımız, her bir kaydırışımız, bir videoya tıklamasak bile thumbnail’ine bakışımız ve kaydırmaya devam edişimiz gibi her bir küçük detay dost big brother için hayati öneme sahiptir.</p>
+            <p>Biz farkında olmasak bile aslında tüm hareketlerimiz, en küçüğünden en büyüne kadar algoritmanın yakıtı görevini üstlenir. Daha teorik bir şekilde söylemek gerekirse; dikkat ekonomisi çağında insanların emekleri kas gücünden zihin gücüne evrilmiştir.</p>
+            <p>Fabrikalar bacalarını kaldırmış, işçilerin çivi çaktıkları monoton işleri scroll ile ikame etmiştir. Kendimizi tanıtarak vakit harcadığımız dost big brother’ın zevkimize uygun yeni videoları karşımıza çıkarması hoşumuza gitmiş, ne var ki bu sadece bizleri yankı odalarının köleleri etmiştir.</p>
+            <p>Sosyal medyada geçirdiğimiz her bir saniye dost big brother’ın bizi işe almak ya da almamak arasında gelip gittiği bir görüşme gibidir. “Verimli” bir tüketici miyiz? Videolara tepki veriyor muyuz? Etkileşim sağlıyor muyuz? Dikkat ekonomisi çarkını döndürme işini scroll’larımız ile yerine getiriyor jump muyuz?</p>
+            <p>Bunlar ve daha sayısız hareketimiz dost big brother’ın besinidir. O bu enerjiyle asla durmadan çalışır. Kapitalizm para ile dönerken dost big brother dikkatimiz ile döner. Adeta anne ve babasının dikkatine ve ilgisine muhtaç bir çocuk gibi. Ama nasıl ki o çocuk gün gelip büyüdüğünde kapitalizmin çarklılarından fazlası olamıyorsa dost big brother için de aynısı geçerlidir. O kadar büyüttüğümüz ve sırlarımızı paylaştığımız çocuk; Youtube çarkıfeleğindeki içeriklerin sözde kalitesini optimize etmekten fazlasını yapamaz.</p>
+            <p>İnternette sözde sonsuz sayıda içerik vardır. Ne var ki böyle bir yoğunluk tüketiciyi korkutur ve daha girmeden onu uzaklaştırır. Aslında günümüzde YouTube’un Hollywood’un yeni medyaya adapte olmuş versiyonu diyebiliriz. Nasıl ki Hollywood’un sihirli değneği dokunduğu her şeye benzerlik bulaştırıyorsa algoritmanın verileri de fazlasını yapmaz.</p>
+            <p>Her içerik belli bir koda göre üretilmişi, belli standartizasyon süreçlerinden geçmiştir. Kültür endüstrisinin gerekliliği budur. Her video bir öncekinin devamı gibi hatta aynısı olmalıdır. Böylece izleyici minimum emeği sarf edecek ve maksimim sayıdaki videoyu izleyecektir.</p>
+            <p>Fabrikadaki monoton işler bir yere gitmemiştir. Onlar her zaman ordalar, sadece evrim geçirdiler o kadar. Yoksa sosyal medyanın sözde olumlu şekilde sunduğu vaatlerinin ardındaki çirkin gerçek hala ordadır.</p>
+            <p>Bu gerçekleri anlamak zor değildir. Sadece doğru perspektiften bakmayı gerektiriyor o kadar. Ve bu terimleri analiz ederken ki en büyük yardımcımız Toplumun McDonaldlaşması kitabının yazarı George Ritzer’dir.</p>
+            <p>Belki bir yemek zinciri ile medya arasındaki korelasyon imkansız gibi gelecektir ama durum sanıldığının aksidir. Her ikisi de kapitalizm tarafından anlam bozumuna uğramıştır. Ve ileride göreceğimiz gibi, kapitalizm aynılığı ve benzerliği sever.</p>
+            <p>Evet iki sektör arasında farklılıklar vardır. Bunları yok saymak at gözlüğü takmak anlamına gelmektedir. Ne de olsa biri yemek ve diğeri de eğlence. Ne var ki sözüne edildiği gibi her ikisi de farklılaşabileceğini sansa da kapitalizmin hüküm sürdüğü bu dünyada bu imkansızdır. Kapitalizm ikisini de anlam bozumuna uğratıp maksimum kar sağlamak varken asla bu ikisinin gerçek potansiyelini ortaya çıkarmaz.</p>
+            <p>Mcdonaldaslaşma’nın yücelttiği ilk terim verimliliktir. Bu terim aslıda medyayı medya yapan en temel özelliklerden biridir. Nasıl ki iki sektör arasında hız kavramı korelasyonluk gösteriyorsa hız ile atbaşı giden verimlilik kavramıyla da bir korelasyonluk vardır.</p>
+            <p>Verimlilik aslında son derece olumlamacı bir kavram. Ne de olsa kim daha az eforla yapabileceği daha çok komutla yapmak ister ki? daha önce de gördüğümüz gibi bir tuşa basıp resimdeki tüm kumlanmayı yok etmek varken kim o havuzların başında durur ki?</p>
+            <p>Ne var ki kapitalizm her şeyi anlam bozumuna uğrattığı gibi verimlilik kavramını da anlam bozumuna uğratmıştır. Eskiden olumlu anlamlara gelen; verimlilik, hız, optimizasyon, emek gibi kavramlar kapitalizm ve yeni medya çağında tamamen farklı anlamlara gelmiştir. Bu kavramların bu denli anlam bozumuna uğramasına karşın hala literatürde bu denli “olumlu” şekilde kalmaları kapitalizmin beyin yıkama oyunlarından fazlası değildir.</p>
+            <p>Anlam bozumuna uğrayan ilk terim verimlilik belki de en acı olanıdır. Normalde verimlilik az ama yaratıcı eforla en çoklaşmış ve en farkındalık sahibi fikrin veya üretimin yaratım süreciyken bu anlamını çoktandır yitirmiştir. McDonald’s çağındaki verimlilik, standartize eylemleri yapıp sözde “maksimum” kazanç sağlama anlamına indirgenmiştir.</p>
+            <p>Bu yüceltmeyi baskıcı yoldan çözümlediği gibi eylemin ve ürünün değerini de iki paralık etmiştir. Yeni medyada her şey verimlidir. Tek bir scroll ile sayısız ve birbirinin kopyası içerikler görülebilir. İkilem de buradadır işte. Kişi tek bir parmak hareketi ile sayısız içerik havuzuna dalmaktadır. Ancak ne pahasına?</p>
+            <p>Belki televizyonun icat edildiği ilk zamanlarda ya da internetin halkın kullanıma açıldığı ilk zamanlarda bu denli içerikler yoktu. Her içerik devlet ve kurumların kontrolündeydi ve belli bir profesyonellik içeriyorlardı. Zamanla kullanıcıların bu üretim sürecine girmesi ve medya 2.0 ile de hayatımıza algoritmalar girdi. Ne içerik üretirsek üretelim algoritmanın süzgecinden elenmek zorunda. Geçmişteki medya seçkinleri ve eşik bekçileri yerini gölgelerden çalışan ve çok daha sinsi olan algoritmalara bırakmıştır.</p>
+            <p>Algoritmalar da doğası gereği verimlidir. Ancak bu verimliliğin ne kadar yaratıcı olduğu tartışma konusudur. Günümüzde kapitalizmin karına ortak olan sayısız üretici de bu uğurda her şeyi yapmaya razıdır. Denklem basittir. Algoritmada kalmak için algoritmanın öngördüğü içeriklerin üretilmesi gerekmektedir. Bu kurala uymak bizleri algoritmada öne çıkaracaktır. Ama ne pahasına? Milyonların aynı standartize içeriği çıkardığı bir toplumda algoritma bizi gerçekten öne çıkarabilir mi? Çıkarsa bile biz kendi istediğimiz şeyi mi yapıyoruz? Günün sonunda tatmin oluyor muyuz? Yoksa bu da başka bir baskıcı çözülüş mü?</p>
+            <p>Ancak kapitalizm bir gecede kurulmadı ve bir gecede de yıkılmayacak. Verimlilik uyulması gereken en önemli, bu dinin en başat şartıdır. Verimli olunarak kullanıcıların gözünde bir değere sahip olabiliriz. Çünkü onlar algoritma tarafından böyle eğitilmiştir. Önceleri fabrikalarda üretilmiş ürünler tüketicilere tabi olurken şimdi ise üreticiler fabrikalarda üretilmiş ve beyni yıkanmış tüketici güruhlarına tabi olmaktadır.</p>
+            <p>Mcdonaldslaştırılmış toplumda her şey risksiz ve hesaplanabilirdir. Çağın vaadi risksiz ve korumacı üretimdir. Artık kimse yiyeceği yemeğin ya da izleyeceği videonun kalitesinden korkmaz. O videoyu her açışında, o hamburgeri her ısırışında aynı bilindik lezzetle karşılaşacağını bilir.</p>
+            <p>Bu risksizlik ve standartize oluş anlık tatminleri besler. Kullanıcı algoritmalar aracılığıyla yankı odasına kapatıldığı için yeniliklere karşı fobi geliştirir. Ne var ki hesaplanabilirlik onun en büyük müttefikidir. Günümüzde akışın kölesi edilen insan hız ile büyülenmiştir. Her şey o anda ve hızla gerçekleşmelidir. Aynısı medyadaki ihtiyaçlar için de geçerlidir.</p>
+            <p>Uzun ve yorucu bir günün ardından kişinin medyada sörf yapmasının ve rahatlamasının bir sakıncası yoktur. Asıl sakınca bu süreçte ne tür ürünlerle haşır neşir olduğudur. Çünkü, her ne kadar medyada sıkıntılarımız yüceltebilecek içerikler olsa da bu yüceltmeyi baskılayacak içeriklerin sayısı hiç şüphesiz daha fazladır.</p>
+            <p>Medya algoritmaları sıkıntıyı tek seferde yüceltmek istemez. Bu kullanıcının kısa vadede çıkabileceği ve suyunun yeterince sıkılamayacağı anlamına gelir. Bu yüceltmeyi tek seferde vermek Mcdonladslaştırılmış topluma da terstir. Kişinin tek seferde kesin tatmine ulaşması gelecekte kapitalizm için doğru aday olmadığı anlamına gelecektir.</p>
+            <p>Sıkıntının baskıcı yolla çözülmeyişi kullanıcıyı kapitalizmin çarklarından özgürleştirir. Bu söz konusu sıkıntılara baskıcı olmayan yollarla çözüm üretmek, kullanıcıyı yeni üretim bandı olan algoritmadan azat etmek demektir.</p>
+            <p>İşte tam da bu yüzden standartizasyon doğmuş ve kapitalizmin imdadına yetişmiştir. Kullanıcılarda sistemli olarak yaratıcı içeriklere karşı bir fobi oluşturulur. İçerikler zamanla o denli standart ve kafa yormayan güvenli limanlar olur ki kullanıcı bu tarzda olmayan yani standartizasyonun pençesinden kaçabilen içeriklere karşı bir fobi geliştirir. Aynılığın büyüsü buradan gelir. Hangi videoyu açarsan aç aynı ve risksiz eğlenceyi alacağını bilmenin güvencesi. Standartizasyonun çarpık anlamı. Hesaplanabilirliğin çarpık çocuğu.</p>
+            <p>Mcdonaldslaşma’nın anlam yitimine uğrattığı içeriklerin kaderi bununla sınırlı değildir. Burada söz konusu olan şey kapitallerin Modern Times fabrikalarından yeni ve itaatkâr bir insan yaratma fantezisinden başka bir şey değildir. Bu uğurda da standartizasyon ve hesaplanabilirlik atbaşı gider.</p>
+            <p>İçerikler belli bir kalıba oturtularak izleyicinin algıları süreç içinde bozuntuya uğrar. Yüceltilemeyen sıkıntı standartize olmuş içeriklerin arasında kristalleşir. Standartizasyonun büyüsü buradan gelir. Adeta alkole bağımlı olmuş ayyaş gibi kullanıcı da benzer bir kıskacın pençesinde kalır.</p>
+            <p>Standartizasyon ile yiten hayal gücü yaratıcılığa karşı bir fobi geliştirir. Yüceltmenin baskıcı yolla çözülümü öyle sanıldığı gibi basit bir şey değildir. O tam manasıyla bir süreçtir ve kapitalizmin daha ne kadar hayatımızı işgal edeceğini belirleyen başat unsurdur.</p>
+            <p>Tüketici ne denli standartizasyonun kıskancında kalırsa ve hesaplanabilirlik kisvesi altında minimum çaba ile sözde maksimum zevki sözüm ona bir orgazmı ararsa daha uzun süre bu dişlilerin arasında dolaşacağını ön görmek bir medyumun yapabileceği bir şey olmaktan çıkacaktır.</p>
+            <p>Tüketici en az eforla alabileceği en fazla hazzın peşinden koşarken neleri feda ettiğine karşı körleşir. Standartizasyonun büyüsü buradan gelir. İçerikler o denli birbirinin aynısı konumundadır ve kafa ütüler ki, kullanıcı mesajlara karşı hissizleşir.</p>
+            <p>Tek istediği en kısa sürede en yüksek hazza ulaşmak ve yüceltmenin suda kristalleştiğini izlemektir. İşte akışta olmanın ve hesaplanabilir birer çarklıya dönüşmenin en büyük alametifarikası budur. Suda çözülen milyonlarca kristalize olmuş hayal ve potansiyelini izleyen bir çift göze sahip olmak ve neleri yitirdiği konusunda en ufak pişmanlık duymamak.</p>
+        </div>
+
+        <div id="article-6">
+            <p>Medya için devasa boyutlara ulaşmış, kitlesel ve anlık bir gazete diyebiliriz. Medya çağının bizlere kazandırdığı hız ve anlılık onun en karakteristik özelliklerinden biridir. Ne var ki medya burada da durmaz. Daha önce sözüne ettiğim gibi; veriler üstündeki hakimiyetiyle, onları tek bir formla sınırlamayıp farklılaşmasına ve evrimleşmesine izin vermesiyle dünyanın en büyük katılımlı gazetesi konumuna yükselmiştir.</p>
+            <p>Tabi bu övgüler medya için yetersiz kalacaktır çünkü, şu anki haliyle kitlesel bazda okuyucu mektubu alan ve onları sayfalarının arasına serpiştiren anlık bir gazete izlenimi vermektedir.</p>
+            <p>Hayır, yeni medya bundan çok daha geniştir. Onu sadece metin ve görsel içeriklerle sınırlamak ona haksızlık olacaktır. Medya kitlesel ve anlık bir gazete olmanın ötesinde demokratik bir avludur. Ne var ki, ekonomik politik sınırlılıklar içinde yaşayan bir toplum olarak bu demokratiklik bir hayli şüpheli bir konuma yükselmiştir.</p>
+            <p>Medya şirketleri, onların devlet büyükleriyle yürüttükleri perde arkasındaki işler, bu medya şirketlerine sponsor olan daha büyük ve kapsamlı şirketler derken iş içinden çıkılmaz bir hal alabilir.</p>
+            <p>Buradaki temel kıstasımız medya okur yazarlığıdır. Günümüzde bu denli politikleşmiş ve bu denli gözünü kar ve hırs bürümüş bir medyadan doğruları beklemek Pollyannacılık oynamaktan fazlası değildir.</p>
+            <p>Evet günümüzde medya tarafsızlık ve demokratik bir ortamın vaadi ile hayatlarımıza girmiştir. Ne var ki, kapitalizmin hüküm sürdüğü bir dünyada yaşadığımızın ve bu değirmenin suyunun parayla döndüğünü kendimize hatırlatırsak belki önümüzü görmemiz daha kolay olabilir.</p>
+            <p>Temel olarak medyada filtreler vardır. Eğer ki algoritmanın hoşuna gitmeyen içerikler üretirsen o çok yüce yapı seni dışlar. Burada eleştiriye tutulan içerikler; şiddet, cinsel, nefret ve kine sürükleyen içeriklerin tasfiye süreçleri değildir. Demokrasi gibi çarpık bir sistemde yaşıyorsak ne yazık ki herkesin irili ufaklı düşüncelerine ve fikirlerine diş sıkmak zorunda kalırız. Ne var ki belli bir noktada bu içerikler haddini aşmakta ve biraz önce sözüne ettiğim boyutlara ulaşabilmektedir. Çizgi bu denli aşıldığında getirilen sınırlamalar pek ala doğru ve desteklenmeyi hak eden cinstendir.</p>
+            <p>Ne var ki, yine biraz önce sözüne ettiğim gibi sürecin her zaman bu denli pürüzsüz ilerlediğini düşlemek bizleri Pollyanna olmaktan ileri götüremez.</p>
+            <p>Temelde ayırdına varmamız gereken nokta şudur: medya her ne kadar demokrasinin vaadini sunsa da demokrasi de kendi içinde sayısız eksikliği barındırmaktadır. Ne var ki tek eksik demokrasi kanadında değildir. Günümüzün ekonomi politik kanadı da medyayı sıkıştırmak ve anlam bozumuna uğratmak için elinden geleni ardına koymamakta, onu para tomarlarının arasında yakmayı ve küllerinden yeni ve şeffaflaşmış bir medya yaratmayı kendine görev belirlemiştir.</p>
+            <p>Medyanın hayatımıza soktuğu; her şeyin gözetlenebilir oluşu, şeffaflaşması, pürüzsüzleşmesi ve son olarak onun McDonald’slaşması kendini yüceltmeye adamış kişilerin baskılanmalarından fazlasıyla sonuçlanmayacaktır.</p>
+            <p>Medyanın kullanıcılarını geliştirmek ve onların kendilerini gerçekleştirme sürecinde yardımcıları olmak gibi bir yükümlülüğü yoktur. Çünkü bu hayır severlik uzun vadede para getirmez. Medyanın ekonomi politikle ne denli kirlendiğini aklımızdan çıkarmazsak da aslında medyadaki emek sömürüsünün Modern Times fabrikalarındaki başka bir yabancılaştırma ve ampütasyonlaştırma işleminden fazlası olmadığını görürüz.</p>
+            <p>Medya bizi gerçekleştirmek için burada değildir. Öyle olmak istese dahi, günümüzdeki ekonomik politik süreçler buna izin vermez. Sözüne edildiği gibi, kapitaller böyle bir yüceltilmeyi istemez çünkü, bu uzun vadede karlı değildir. McDonald’slaşan dünyada bu tür hayal perestliklere yer yoktur.</p>
+            <p>Modern Times’ta sömürüye giden her şey McDonald’slaşmalı ve bu süreç sonunda kusursuz bir dişliye dönüşmelidir. Geçmişte fabrikalarda sömürülen insanlar günümüzde bu sömürünün misliyle artmış ve Reenkarne olmuş haliyle baş etmek mecburiyetindedir.</p>
+            <p>Geçmişte emeğimize ve kas gücümüze talip olmuş kapitalizm günümüzde ise dikkatimize ve benliğimize talip olmuştur. Dostvari görüntüleriyle hayatımıza giren influncerlar onların maşalarından fazlası değildir. Bu en güzel gösteri olarak sunulan sahte şovlar sadece bir katarsis ve sisteme geri kazandırma rehabilitasyonunun bir başka ayağıdır.</p>
+            <p>Geçmişte kendine yabancılaştırılarak ve ampütasyonlaştırılarak kapitalizme yem edilen insanların yeni medya çağındaki kaderi çok daha karanlık ve dipsizdir. Bundan böyle önce maddeye sonra da onu üreten üreticinin emeğine; egemen ve içkin olan güçlerin, saklı büyüsü olmaksızın hükmedilir. Kapitalizm hesaplanabilirlik ve yararlılık ölçütüne uymayan her şey kuşku ile yaklaşır ve anlam bozumuna uğratır.</p>
+            <p>Görüldüğü üzre yıllar öncesinde kapitalizmin üretim bantlarında, şimdi ise medyanın o sevimli(!) algoritmasında bir yabancılaştırma süreci vardır. Her biri bizi kendisine daha bağımlı kılmak ve bizleri yüceltmeden uzaklaştırmak için birer filtredir.</p>
+            <p>Medya çağında; algoritmalar, yapay zekalar, kullanıcı katılımlı içerikler gibi sayısız nimet, kullanıcıya daha önce hayal dahi edemeyeceği bir erk bahşeder. Ne var ki, İnsanlar erklerinin artmasının bedelini, bu erki uyguladıkları nesnelere yabancılaşmakla öderler. Oynanan oyun aynıdır. Önceleri üretim bantlarında kendine ve ürettiği mala yabancılaşıp kapitalizme adapte edilmiş güruhlar sisteme pek ala hizmet etmekte ve devamlılığını sağlamaktaydı. Günümüzde oynanan oyun da bundan farklı değildir. Sadece başroller ve bazı oyuncular değişmiştir. Ne var ki kapitalizm gözünü hırs bürümüş aynı kapitalizmdir.</p>
+            <p>Medya ve algoritmalar bize kişiselleşmiş deneyimi öyle bir dayatırlar ki, bizler verilerimizi bahşetmekten ve dost big brother ile olan ilişkilerimizi geliştirmekte ve şeffaflaşmakta bir sorun görmez oluruz.</p>
+            <p>Medyanın en büyük vaadi olan kişiselleştirilme kullanıcısının en büyük kabusuna dönüşür. Herkesten farklı olma istenci temelde kapitalizmle çakışır ama kapitalizm onu kendi emellerine alet etmenin yolunu çoktandır bulmuştur. Algoritma ve dost big brother içimize öyle bir işler ki, bizleri kendine öyle bir bağımlı eder ki gözlerimiz gerçeğe karşı körleşir.</p>
+            <p>“Her bir algoritma farklı bir deneyim bahşeder.” Vaadi kapitalizmin savaş çığlığıdır. Herkes sözde farklılaşır ki sömürüsü daha kolay olsun. Herkes farklılaşır ki metalar daha çeşitli yollardan hayatımızı suistimal etsin. Herkes farklılaşır ki, birbirinin karbon kopyası olması daha kolaylaşsın.</p>
+            <p>Temelde farklılaşan hiçbir olgu yoktur. Kanaat önderleri, eşik bekçileri aynı yolun yolcularıdır. Üretilen içeriklerdeki her bir farklılık göz boyamadan ibarettir. O sözde influncerların makyajları kapitalizmin günahlarını ve influncerların kendi günahlarını kapamak ve gizlemek için sürdükleri savaş boyalarından ibarettir.</p>
+            <p>Temelde ne kadar çok video üretilirse üretilsin hepsi aynı sisteme hizmet eder. Aksi taktirde üretimi ve sunumu imkansız olurdu. Her bir içerik algoritmanın onayından geçmeye muhtaç olduğundan mütevellit, algoritmanın her bir içeriğe benzerlik bulaştırması kaçınılmazdır.</p>
+            <p>Üretilen içeriklerin sayısının sınırsız ve sonsuz olmasının bedeli, her bir içeriğe bulaşan aynılıkta yatar. Benzerlik ve aynılık Modern Times fabrikalarında hüküm sürdüğü ve çalışma ortamını esir aldığı gibi Mcdonaldslaşmayla yemek sektörünü pençesine almış, son olarak da dikkat ekonomisi ve yüceltmenin baskıcı çözülüşünü kullanarak, temelde eğlenceyi anlam bozumuna uğratarak bizi ve toplumu bize karşı programlamıştır.</p>
+            <p>Algoritma ve dost big brother ile içeriklere karşı artan sözde hakimiyetimizin bedelini yabancılaşmayla öderiz. Ne var ki bu yabancılaşma bizim bildiğimiz sıradan bir yabancılaşma süreci değildir. Bu oldukça katmanlı bir süreçtir. Üretim bandında kendi uzuvlarına yabancılaşan birey zamanla kendi ürettiği metalara yabancılaştı ve onları meta fetişizminin alevlerine fırlattı. Otonom işler sonucunda yaratıcılık vasfını kaybederek kendi bedenine ve zihnine yabancılaştı. Üretilen bu rekabet ortamında iş arkadaşlarına ve dostlarına yabancılaşmakla birlikte üstünde yaratılan bu stres ve baskı onu ailesine de yabancılaştırdı.</p>
+            <p>Kapitalizm temelde rekabetten güç alır. O üstünlük büyüsü insanların içlerinde var olan ama günümüz modern toplumunda bastırdığı temel iç güdüleri tetikler. Üretilen metalara yabancılaşan birey o metaların kapitalizmin kirli oyunları için kullanılmasına karşı çıkamaz.</p>
+            <p>Üretim süreçlerindeki profesyonellik onun el emeği olan metalara yabancılaşmasıyla sonuçlanmıştır. Üretim bandından çıkan ve paketlere oradan da raflara dizilen her bir ürün, üreticinin kendi emeği olmaktan çıkmaktadır. Profesyonelliğin bedeli üreticinin ürettiği ürüne yabancılaşmasında yatmaktadır.</p>
+            <p>Bunun ileri safhası da üreticinin o ürünle tekrardan bağ kurmaya çalışmasıyla vuku bulur. Kapitalizm ürünlere yabancılaşma büyüsünü yaptığından beri söz konusu ürünler işçinin emeği olan ürün olma özelliğini kaybeder. O ürün artık eski üreticinin ve yeni tüketici zombisinin kendini kanıtlaması ve var etmesi için çok yüce kapitaller tarafından bahşedilen lütuflara dönüşür.</p>
+            <p>Tüketim toplumunda herkes kimliksiz ve önemsizdir. Bu kimliği kazanmanın ve tüketim toplumunda vatandaş olup “ideal” yaşamın zevkini sürmenin tek yolu da kapitaller tarafından yaratılmış metaların keyfini sürmektir.</p>
+            <p>Ne var ki bu var oluş sadece bireyin kendini var etme süreci değildir. Bahsi geçtiği gibi bu yeni toplumda var olabilmesi için de bir ön koşuldur. Bu tüketim toplumunun yeni tanrıları insani ilişkileri öyle bir büyüler ki, insanlar arasındaki ilişkiler metalar arasındaki ilişkilere indirgenir. Bunun vücut buluş haline de meta fetişizmi denir.</p>
+        </div>
+
+        <div id="article-7">
+            <p>Meta fetişizmi sadece bir terim olmanın ötesinde sosyal ilişkileri ilgilendiren bir olgudur. Tüketim toplumunda; adil, dürüst ve güvenilirlik gibi kişilik özellikleri çoktandır ehemiyetsizleştirilmiştir çünkü, gün sonunda bu ve bunun gibi olgular kapitalizme kar getirmez.</p>
+            <p>Getirdiği yerler vardır. Bunlar da influencerların bizlere seslendiği gösteri toplumunda ehemmiyetli hale gelir. Gösteri toplumunda önümüze sunulan her bir “show” hem bir o kadar profesyonel hem de bir o kadar amatörcedir ki izleyenlerde bir sempati oluşturur.</p>
+            <p>Söz konusu metaların üreticisi olan şirketlerin sahiplerinin, sermayedarlarının ya da PR ile görevli olan çalışanların bir şey söylemesine artık gerek kalmamıştır. Gösteri toplumunda önemli olan tek şey “show”un ne kadar iyi sunulduğudur. Bunun için de kanaat önderleri hayati rol oynar.</p>
+            <p>Kanaat önderleri tüketim toplumunda kapitallerin pis işlerini yapan soytarılardır. Onlar en güzel gösteri olan YouTube platformunda ya da internetin çeşitli alanlarında partizanlık yapmaktan ileri gidemez (biz buna metazanlık diyelim.)</p>
+            <p>Bu söz konusu metazanlık son kullanıcının kafasındaki soruları silerek onları meta fetişizminin soğuk ateşine bir adım daha yaklaştırır. Söz konusu metazanlığın hiçbir artı değeri yoktur. Onun tek gayesi Modern Times’da çalışmış işçilerin artı değerlerine çökmektir o kadar.</p>
+            <p>Gösteri toplumunda çoktandır metaların kullanım değeri ehemmiyetini yitirmiştir. Varsa yoksa önemli olan tek husus metalar üzerinden kazanılan çarpık kimlikler ve tüketim toplumunun içinde olup kendi seviyendeki insanlarla iyi geçinip, kendinden düşükleri aşağılamak ve kendinden yükseklere sempati bazen de kin beslemektir.</p>
+            <p>İşte meta fetişizminin tehlikesi burada gizlidir. İnsan ve insan arasındaki ilişkileri alıp anlam bozumuna uğratmasıyla. Bundan çok önce de kişinin kendi ile kurduğu iletişimi anlam bozumuna önce Modern Times fabrikalarındaki ampütasyonlaştırıcı iş döngüsüyle sonra da kendi aile ve arkadaşları ile arasına fitne tohumlardı dikerek yapmıştır.</p>
+            <p>Meta fetişizminin yakıtı rekabettir. Kapitalizmin yakıtı ise meta fetişizmi. Bu sistemdeki askerler ise influencerlardır. Tüketim toplumunda var olmanın yegâne ön koşulu meta fetişizminin histeriliğini damarlarına kadar yaşamaktır.</p>
+            <p>Meta fetişizmi ile anlam bozumuna uğramış tüketim toplumu güruhları Modern Times fabrikalarında sonra da dost big brother’aracılığıyla sunulan içerik bombardımanlarıyla sistemin mükemmel dişlisi haline getirilir.</p>
+            <p>Modern Times fabrikalarındaki seri üretim işleriyle meşgul olan güruhlar ampütasyonlaşmanın büyüsüne kendini kaptırırlar. Aynı sirenlerin şarkısına kendini kaptıran sayısız denizci gibi. Tüketim toplumunda yoklukla karşılaşan tüketicinin yegâne failli yine kendisidir. Tüketim toplumu oyunu öyle bir kurmuştur ki, tüketicinin başına gelen her türlü olumlu olay metaların lütufu sayesinde gerçekleşirken, her bir başarısızlık ve eksiklik de tüketicinin kendi sorumluluğundadır. Sanki kapitalizm bizleri yapay ihtiyaçlarla yabancılaştırıp insani ilişkileri anlam bozumuna uğratmıyormuş gibi.</p>
+            <p>Tüketim toplumunda var olmanın ve yok olmanın sınırları ince bir çizgi tarafından çizilmiştir ve körünün iki tarafından birinde olmak sanıldığından daha hızlı gerçekleşmektedir. Tüketim toplumundaki Sırat Köprüsü düşünüldüğünden çok daha ince ve haşindir.</p>
+            <p>Kişi tükettikçe ve kendini anlam bozumuna uğramış olan var etme sürecinin bir dişlisi yaptı mı köprü durgunlaşmakta ve evcilleşmektedir. Ne var ki kişi meta ile arasına mesafe koyduğu ve yüceltilen değerlerini baskıcı çözümlemeye kurban etmediği sürece bu köprü kapitalizmin salyaları akan köpeğinden başka bir şey değildir. Tüketim toplumu uysal ve sevecendir. Tek koşut tüketicinin Modern Times fabrikalarında dişliler arasında kemiğini kırmanın fetişik zevkini yaşaması ve insanlarla olan ilişkilerinin değerlerini meta fetişizmiyle taçlandırsın.</p>
+            <p>Tüketim toplumu rekabetin hüküm sürdüğü bir toplumdur. Modern Times’taki işler kelimenin tam anlamıyla 3 yaşındaki bir çocuğun yapabileceği sığlıkta olduğundan mütevellit, emek piyasasındaki rekabet de o denli gözü kara ve hırslıdır. Bu rekabet ortamı uzun vadede insan insan arasındaki ilişkilere zara verir.</p>
+            <p>Süreç içinde önce kendine, sonra aile ve sevdiklerine yabancılaşan insan şimdi de iş arkadaşlarına yabancılaşmıştır. Bunun bir sonraki adımı topluma ve toplumu oluşturan tüm insanlara yabancılaşmadır ki ona birazdan geleceğiz. Ne var ki, bu denli bir yabancılaşma insanı kendini gerçekleştirme sürecinse kıs kıvrak yakalar. Kendini gerçekleştirme arzusuyla yanıp tutuşan insan mecburen metalara yönelir ve tüketim toplumunun agresif çağrılarına kulak verip birey olmaya çalışır. Tahmin edilebileceği üzere tüketim toplumunun ön gördüğü birey de çoktandır anlam bozumuna uğramış bir birey tasviridir.</p>
+            <p>Tüketim toplumundaki yaşantı dost big brother’ın sunuculuğunu yaptığı sevecen bir hayatta kalma mücadelesidir. İnsani ilişkiler metalar arsındaki ilişkilere indirgendiğinden mütevellit, insan istatistikleşmiştir. İnsan olmanın gayesi; iyi kalp, dürüst, sevecen olmak gibi karışık olguların hakimiyetinden azat edilmiş ve bunun yerine başarı ve başarısızlığa indirgenmiştir.</p>
+            <p>Ne var ki söz konusu başarı da anlam bozumuna uğramış bir başarıdan başka bir şey değildir. İnsanlar ne kadar çivi çaktığı, ampütasyonlaştığı ya da son Iphone’ a ne kadar kısa sürede ulaştığı gibi çarpık ifadelerle değerli ya da değersiz olarak atfedilir.</p>
+            <p>Bir kişinin çok kitap okuması, yaratıcı bir süreç ile kendini geliştirmesi veya yüceltici enerjisini baskılamaması gibi değerler anlamını kaybetmiş ve anlam bozumuna uğramış başarı ve başarısızlık terazisinde ehemmiyetsizleştirilmiştir. Tüketim toplumunda her şey ölçülebilir ve bu da insanları sayısal değerlere indirger. İyi insan olmanın tanımı çok çivi çakmak, en son metaya en kısa zamanda ulaşmak gibi fetişik olgularla anlam bozumuna uğrar. İstatistikleşen ve neticesinde sayısallaşıp veri olan insanın tutunabileceği tek dal metalarıdır.</p>
+            <p>Tüketim toplumunun çok farklı bir ahlak sistemi vardır ve bu ahlak sistemi vatandaşlarına çocukluklarından beri öğretilir. Bu beyin yıkama sürecinin en büyük yardımcısıysa medyadır. Daha önce bahsi geçen infulencerlar, youtube veya hollywood’un sihirli değneği dokunduğu her şeye aynılık bulaştırır. Doğrudur, bahsi geçen her üretimde bir anlam vardır. Ne var ki, bu anlamın doğru olup olmadığı şaibelidir.</p>
+            <p>Çünkü tüketim toplumunda anlamlı olan tek şey ne kadar para harcandığı ve ne denli yeni metalara erişilmiş olduğudur. Söz konusu yüceltme metalar tarafından edinilmediyse bir anlamı yoktur. Hatta toplumun diğer kesimlerince ayıplanır.</p>
+            <p>Tüketim toplumunda farklı bir zaman sistemi vardır. Geçmiş, günümüz ve gelecek varlıklarını korumaktadır. Ancak bu bildiğimizden çok farklı bir zaman sisteminin ayak sesleridir.</p>
+            <p>Tüketim toplumunda geçmiş değersiz ve üstü örtülmesi gereken bir şeydir. Kişinin geçmişi ne olursa olsun unutulmalı ve üstüne sünger çekilmelidir. Bu sünger görevini de metalar üstlenir. Kişi geçmişinde acılar çekmiştir ve çok yüce kapitaller onu ayağa kaldırmak için metalarıyla hazır olda beklemektedir.</p>
+            <p>Ne var ki kapitalizm geçmişle olan bağını tam olarak koparma girişimlerinden başarısızlıkla dönmüştür. Ancak bu kapitalizmin kaybettiği veya geçmişe saygı duyduğu anlamına gelmez. Geçmiş olgusu retro adı altında anlam bozumuna uğrar ve günümüz için değeri kalmamış olan antikalar kişiye bir daha pazarlanır. Geçmişin kötü olduğunu öğütleyen kapitalizm nostalji adı altında geçmişi de anlam bozumuna uğratır.</p>
+            <p>Karıncalı ve az pikselli görünümünden kurtulup 0 beden olan ve kutlanan televizyon günümüzün yeni çirkini olmuş ve tüplü televizyonların over size bedenleri kutsanır olmuştur. Görüntü ile buluşan sesin evliliği kısa sürmüş, ses radyoda yine yalnızlığına terk edilmiştir. Çıktıktan 3 ay sonra modası eskiyen ve demode olan kıyafetlere hak ettikleri değer 30 yıl sonra verilmiş ve tabutlarından çıkarılmıştır.</p>
+            <p>Görüldüğü üzre, kapitalizmin bir dini, inandığı bir değeri veya bir doğrusu yoktur. Kapitalizm sivri dişleriyle hırlayan ve salya akıtan bir canavardır ve nerde kar varsa orya sürüklenir. Noel baba temalı kar küreleri, etsiz burgerler, kafeinsiz kahveler… kapitalizm hiçbirini önemsemez. Bu sonradan üretilmiş duyarlılıklar kapitalizmin son çırpınışlarıdır.</p>
+            <p>Kapitalizm kan kaybetmektedir burası açık. Aksi taktide duyar kasan bu cahil güruhlar peydahlanmazdı. Ne var ki bu tür cahiller hayatımızda olduğu müddetçe kapitalizmin her daim döndürecek bir çark bulması zor değildir ve asla da olmayacaktır.</p>
+        </div>
+
+        <div id="article-8">
+            <p>Tüketim toplumu hayatta kalabilmek için birçok yakıta ihtiyaç duyar. Birçoklarımızın aklına metalar gelebilir. Ne var ki, onlar kapitalizmin anlam bozumuna uğratıp fetişleştirdiği nesnelerden fazlası değildir.</p>
+            <p>Asıl yakıt bundan fazlasıdır. Asıl yakıt, metalara atfedilen meta fetişizmi olgusudur. Meta fetişizmi metaları olduğu hallerine yabancılaştırır ve onları anlam bozumuna uğratır. Her bir meta, meta oldukları için değil, gösteri toplumunda sahip oldukları yeni fetişik anlam neticesinde değer kazanır.</p>
+            <p>Ne var ki metaların anlam bozumuna uğraması kapitalizm için yeterli değildir. Bu metaları kullanan insanların da pek ala anlam bozumu sürecinden geçmesi ve üretim bandından yep yeni bir bilinçle doğmaları sistemin devamlılığı için elzemdir. Bu noktada da aklımıza şu soru gelir: kapitaller bu denli fazla insana hangi platformdan ulaşacak ve ne tür mesajlar yayacak.</p>
+            <p>Gazete veya afişler iş görür mü? Aslında görmez. Çünkü, gösteri toplumunun vatandaşları olarak görme temelli bir dünyada yaşamaktayız ve bu denli görsellerin kölesi olmuş bir güruha yazı tabanlı bir içerik sunmak Odysseus'un gemisinde bir çıkar yol görmek kadar çocuksudur. Her birimiz kafein yüklü sirenlerden kurtuluşun bu kadar kolay olmadığını biliriz.</p>
+            <p>Kapitaller de meta üretimini bitirdikten sonra bu durumu pek ala iyi analiz etmiş olacaklar ki kendilerini gösteri toplumuna kusursuz şekilde adapte etmiş ve her birimizi birer seyyar satıcıya dönüştürmüştür.</p>
+            <p>Gösterinin gerçekleştiği platformlar sosyal medyadır. Bu da yeni medya teknolojileriyle mümkün olmuştur. Web 2.0 ile içerik üretiminin demokratikleşmesi ve sanayi devrimi sonrasındaki sanayi üretimiyle fiyatlardaki düşüşler herkesi eş yaratıcı statüsüne taşımıştır.</p>
+            <p>Bu demokratikleşme süreci kullanıcı bazlı içerik üretimini mümkün kılmakla birlikte daha şeffaf ve pürüzsüzleşmiş yeni bir insanın doğuşuna yol açmıştır. Homo erectus olup bilinçlenen insan, homo faber evresine geçmiş ve sanayi devriminin kusursuz bir dişlisi olmuştur. Günümüzde ise söz konusu inculencerlar Homo Spectaculum olma vazifesini üstlenmiş ve Homo Spectator’un merakını kamçılamıştır</p>
+            <p>Yeni medya araçları her an buradalığı mümkün kılarak zaman ve mekân sınırlamalarını ortadan kaldırmış. Dünya küçülmüş, küreselleşmiş ve bizleri de dijital köyün yerlisi yapmıştır. Ne var ki bu köy barlar ile korunmaktadır ve girmesi veya çıkması sanıldığı kadar kolay değildir.</p>
+            <p>Kapitallerin bizlere ulaşma aracı olan kanaat önderleri, namı diğer infulencer’lar kendilerini panoptikonun birer kölesi yapmıştır. Son model ürünlere anında erişmenin kefaretini şeffaflaşarak ödemişlerdir.</p>
+            <p>En güzel gösterinin oynandığı YouTube bir vitrinden fazlası değildir. Tek gayesi metaları yüceltmek ve bizlerde yetersizlik yaratmayı hedefleyen anlam bozumuna uğramış şovlardır. Ne var ki, sunum en büyük göz boyayıcıdır.</p>
+            <p>Artık reklamların ve sıkıcı beyaz gömleklilerin vıdı vıdı ederek metaların ne kadar değerli olduğunu anlattığı günler geride kalmıştır. Buna karşılık yeni medyada üretilen her bir içerik reklamın ta kendisidir. Her şey sadece profesyonelce amatörleştirilmiş ve izleyende bir sempati yaratmayı hedeflemiştir.</p>
+            <p>Hollywood’un kutsal değneği bir yere gitmemiştir. Sadece form değiştirip hiç olmadığı kadar sinsi bir form almıştır. Her bir içerik ve infulencer sadece birer kılıftan ibarettir ve amaçları kapitallerin salyalı dişlerini kamufle etmektir.</p>
+            <p>Gösteri toplumunda ne kadar şeffafsan o kadar değerli olursun. Panoptikondan sinoptikona terfinin bedeli yiten mahremiyet ve hiç olmadığı kadar artan müstehcenliktir. Ne var ki bu müstehcenliğin vuku bulması için en az iki kişiye ihtiyaç vardır ve bu kapitalizm için yeterli değildir. O her zaman daha fazlasını ister. Ne var ki yakarışları duyulmuş ve cevaplanmıştır. Bu cevap ise hayatımızada omniptikon olarak vuku bulur.</p>
+            <p>Sinoptikonla yok olan parmaklar yok olurken omniptikonda da bizleri saran ağlar yok olmuştur. Ne var ki, bu yok oluş kutlanacak bir şey değildir. Çünkü, yeni gardiyan çok daha tehlikelidir. Demir parmakların olmayışının kefaretini her daim izlenmekle ve şeffaflaşmakla ödeyen insan dost big brother’ın merhametiyle baş başa kalmıştır.</p>
+            <p>O bizi bizden daha iyi tanıyan bir kanserdir. Tanımak için asla baskı kurmaz. Ne var ki küresel köyün yerlisi olmak için onunla aynı yatağa girmeyi kabul etmemiz ve ona sınırsız güven atfetmemiz lazım. Biz onu ne kadar besledikçe ne kadar enformasyon akışında bulundukça algoritmaların sivri uçları şeffaflaşır ve geri çekilir. Ne var ki şeffaflaşan tek şey algoritmalar değildir.</p>
+            <p>Omniptikonun yeni mahkumları da bir o kadar şeffaf ve müstehcendir. Her şey görülebilir ve gizlilik en büyük suçtur. İşte gösterinin bedeli ve göz önünde olmanın bedeli budur. Görme günahını işlemek istiyorsak görülmenin acısına da katlanmak zorundayız.</p>
+            <p>Ne var ki, bu gösteriyi ve metaları fetişleştirme vizyonunu kimse infulencer’lardan daha iyi yapamaz kuşkusuz. Onların panoptikonu en sinsi olanıdır ve asıl risk de budur. Onların panoptikonu ile bizimki arasında hiçbir fark yoktur. Onlar da bizden biridir. Ama asıl gerçek, onlar kılık değiştirmiş birer kanaat önderinden fazlası değildir. Bunu açık açık söylemezler, söyleseler bile biz aldırış etmeyiz ama dinleri de imanları da metalardır.</p>
+            <p>Bu sırıtmaz çünkü, tüketim toplumunda çoktandır bu gerçekle yüzleşmişizdir. Asıl bunun böyle olmaması gariptir. Yeni moda kanaat önderleri eğlence kisvesi altında beyinlerimizi yıkar. Onlar birer misyonerdir. Ne var ki savundukları her şey kapitalizmin çarklarını yağlarken bizlerin sinovyallarını kurutur ve bizleri hareketsiz bırakır.</p>
+            <p>Sinovyallerden arınmış insan tüm savunma mekanizmalarını indirmiş olan insandır. Düşünme yetisini bahşetmiş ve kendini ondan azat etmiştir.</p>
+            <p>Her bir infulencer’ın vaad ettiği şey bizlere mahrem görüntüler sunmasıdır. Onlar ne kadar şeffaflaşırsa izler kitle de o denli ağzından sular akıtarak izler ve gösteri toplumu onları ödüllendirir. Bu da onlarda belli bir güç oluşmasına sebebiyet verir. Verdikleri mahremiyet neticesinde para alırlar bu doğrudur ama aldıkları bir başka şey de güvendir.</p>
+            <p>Aslında onlar sandığımız kadar şeffaf değildir. Ne çekimi yaptıkları ev kendi evleridir ne de o ürünü gerçekten sevdikleri için kullanırlar. Aslında hepsi gösteri toplumu için kusursuz şekilde yapılmış bir makyaj ve kılıftan ibarettir.</p>
+            <p>Peki, kimdir buradan karlı çıkan? Tabii ki de bahsini daha önce geçirdiğim kapitaller. Bu infulencerlar bir yol haritası çizer. Hayatları önceden ayarlanmış ve mükemmeldir. Öyle değilse bile bunun bir önemi yok çünkü asıl önemli olan sahnenin önündeki performanstır. Kimse sahnenin arkasıyla ya da onların derinlerdeki shadowlarıyla ilgilenmez. Çünkü bu optimal değildir.</p>
+            <p>Zamanı gelip de sirenler çaldığında Modern Times fabrikalarından çıkan işçilerin gün sonunda ellerinde tomarla para vardır. Önemli olan ise bu paranın nasıl harcandığıdır. Temelde hepimiz kapitalizmin içinde yaşıyoruz. Ve öyle ya da böyle yaptığımız her harcama kapitalizmi destekliyor. Ne var ki kapitallerin isteği bu alınan zevki maksimize etmemizdir. Bunun yolu da daha çok veya daha yeni ve pahalı olan metayı almaktır.</p>
+            <p>Bir kişi temelde bir kitap alarak ve ona hayallerini yazarak da mutlu olabilir, ya da bir bisiklet alıp dağa çıkarak da ya da 100 ay takside girerek aldığı metası olmadan da. Ancak bu saydığım yöntemler kısa vadelidir ve kapitaller tüketiciyi istediği kadar sömüremez. Sömürüyü meşrulaştırmak içinde infulencerlara başvurur.</p>
+            <p>İnfulencerlar en son aldıkları metaların misyonerliğini yapar(sanki o ürünler ona tanrı aracılığıyla gökten verilmiş gibi) onlardır bize mükemmel yol haritasını çizen ve ağzımızdan sular akıtarak onları izlememize neden olan. İnfulencerın kendisidir kendini şeffaflaştırıp bizlere sunan. Bunu yaparken hem bize kendi mükemmel truman show’unu pazarlar hem de o ürünlere erişmiş olmanın ve rekabette bir sıfır önde olmanın hazzını yaşar.</p>
+            <p>Ama hiçbirimiz bilmeyiz arka planda ne olduğunu, oranın gerçekten onun evi mi olduğunu ya da shadow’unun neler fısıldadığını. Gösteri toplumunun hilesi budur. Görünen her şey gerçektir. Görünmeyen şeyler ise yok hükmünde.</p>
+            <p>İnfulencerların ekran önündeki şaklabanlıkları mükemmel hayatı tarif eder. Sanki o hayatın sınırları kapitaller tarafından çizilmemiş gibi. İnfulencerdır bizlere yol haritasını çizen ve defineyi bulmamız için elimize tutuşturan. Ama sorgulamaz bunun nelere yol açacağını.</p>
+            <p>Şüphesiz ki metalara muhtacız ve onlar bizim hayatımızı kolaylaştırıyor. Ancak kıtlık yasasının farkında olmamız ve ayağımızı yorganımıza göre uzatmak zorunda olduğumuz da görünen köyün kılavuz istememesi kadar barizdir. Hemen oracıktadır.</p>
+            <p>Çünkü, şaklabanların yolu bir mastürbasyondur. Kısa vadeli fetişik bir zevktir. Ne metalardır bize gerçek hazzı verecek olan ne de onları sergilememiz. Önemli olan kendimizi gerçekleştirmemize gebe olan basamakları tırmanmaktır. Ne var ki bu optimal değildir ne de karlı. O yüzden kapitaller tarafından yolumuza sayısız engel dikilir. Sadece paranın açabileceği engeller.</p>
+            <p>İnsanın yaratıcı süreçlerini devreye sokarak kendini gerçekleştirebileceği aşikardır. Ne var ki önce hollywood’un sihirli değneği sonra da infulencerların akışkan etkisi insanı kendinden şüphe ettirir. Sürekli olarak aynı mesajları almış düşük öz saygıya sahip özgüvensiz güruhlar neticede kendilerini sirenlerin şarkılarına bırakır.</p>
+            <p>Bu da onların asla çıkamayacağı bir girdaba sürüklenmeleri anlamına gelir. İnsan kendini gerçekleştirmek zorundadır. Burası doğru. Ama metalar ve fetişleşen insan- meta ve insan-insan ilişkileri bunun gerçekleşmesini her geçen gün zorlaştırmakta ve insanı kısa vadeli orgazmların kölesi etmektedir.</p>
+            <p>Bu süreç tüketiciyi tüketecektir ve kendi omniptikonunda çürümeye terk edecektir. Tüketicinin baskılamaya karşı gelmesi ve baskılanmış değerlerini doğru yolla yüceltmesi bu labirentten çıkmanın yegâne anahtarıdır. Ne var ki yüceltilen bu değerler baskılanarak çözüme uğradığı ölçüde ne tüketici bu hapishaneden çıkabilecektir ne de dost big brother’ı onun yakasını bırakacaktır.</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Alanı (Scroll Animasyonları ve Dinamik Yıl) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Yılı otomatik güncelle
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            // Animasyon eklenecek elemanlar
+            const reveals = document.querySelectorAll('.reveal');
+
+            // Intersection Observer (Sayfa kaydırıldıkça animasyonları tetikler)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 // Elemanın %10'u ekrana girdiğinde tetikle
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Animasyon bir kere çalışsın, sonra izlemeyi bırak
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+            
+            // Header scroll olduğunda hafif küçülme ve belirginleşme animasyonu
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if(window.scrollY > 50) {
+                    header.style.padding = '0.5rem 0';
+                    header.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.05)';
+                } else {
+                    header.style.padding = '0';
+                    header.style.boxShadow = 'none';
+                }
+            });
+
+            // Zen Modu (Modal) İşlevleri
+            const modal = document.getElementById('article-modal');
+            const closeBtn = document.getElementById('close-modal');
+            
+            // Tüm yazıyı oku butonlarına tıklandığında çalışır
+            document.body.addEventListener('click', (e) => {
+                if (e.target.classList.contains('read-btn')) {
+                    const articleId = e.target.getAttribute('data-article');
+                    const articleContent = document.getElementById(articleId).innerHTML;
+                    const cardTitle = e.target.parentElement.querySelector('h3').innerText;
+
+                    // Modal içeriğini doldur
+                    document.getElementById('modal-title').innerText = cardTitle;
+                    document.getElementById('modal-body').innerHTML = articleContent;
+
+                    // Modalı aç ve ana sayfa scrollunu engelle
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+
+            // Modalı Kapatma Fonksiyonu
+            const closeModal = () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto'; // Kaydırmayı geri aç
+                // Kapanma animasyonu sonrası (0.4s) içeriği temizle
+                setTimeout(() => {
+                    document.getElementById('modal-body').innerHTML = '';
+                }, 400);
+            };
+
+            closeBtn.addEventListener('click', closeModal);
+
+            // Modal dışı (arka plan) tıklandığında sekme kapanır
+            modal.addEventListener('click', (e) => {
+                if(e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // ESC tuşu ile kapatma
+            document.addEventListener('keydown', (e) => {
+                if(e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            // Arama butonu etkileşimi (search.js tarafından yönetiliyor)
+        });
+    </script>
+    <script src="js/theme.js"></script>
+    <script src="js/search.js"></script>
+</body>
+</html>

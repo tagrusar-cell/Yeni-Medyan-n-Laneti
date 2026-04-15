@@ -214,15 +214,6 @@
             display: flex;
             align-items: center;
             gap: 0.85rem;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.02);
-        }
-
-        .logo:hover .nav-logo-img {
-            transform: scale(1.1) rotate(5deg);
         }
 
         .nav-logo-img {
@@ -233,6 +224,10 @@
             border: 2px solid var(--accent-light);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             transition: transform 0.3s ease;
+        }
+
+        .logo:hover .nav-logo-img {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .nav-links {
@@ -260,6 +255,34 @@
             left: 0;
             background-color: var(--accent-blue);
             transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .about-logo-container {
+            margin-bottom: 3rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .about-logo-img {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent-light);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 0.5s ease;
+        }
+
+        .about-logo-img:hover {
+            transform: rotate(5deg) scale(1.05);
         }
 
         .nav-links a:hover {
@@ -353,259 +376,10 @@
         .hero p {
             font-size: clamp(1.1rem, 2vw, 1.35rem);
             color: var(--text-muted);
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
             max-width: 650px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        /* Hero Slider Stilleri */
-        .hero-slider-container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 4rem auto 0 auto;
-            overflow: visible; /* Butonların dışarı taşmasına izin ver */
-            position: relative;
-            padding: 1rem 0;
-        }
-
-        /* Taşan içeriği gizlemek için iç sarmalayıcı */
-        .slider-window {
-            width: 100%;
-            overflow: hidden;
-            border-radius: 32px;
-        }
-
-        .hero-slider-track {
-            display: flex;
-            gap: 2rem;
-            padding: 1rem 0;
-            width: max-content;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Navigasyon Okları */
-        .slider-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 55px;
-            height: 55px;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(8px);
-            border: 1px solid var(--accent-light);
-            color: var(--accent-blue);
-            border-radius: 50%;
-            cursor: pointer;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .slider-arrow:hover {
-            background: var(--accent-blue);
-            color: var(--white);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .slider-arrow svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        .slider-arrow.prev { left: -1rem; }
-        .slider-arrow.next { right: -1rem; }
-
-        @media (max-width: 1150px) {
-            .hero-slider-container { max-width: 900px; }
-            .slider-arrow.prev { left: 1rem; }
-            .slider-arrow.next { right: 1rem; }
-        }
-
-        /* Slider Sayfalama Noktaları - Refined Positioning */
-        .slider-dots {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            padding-bottom: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .dot {
-            width: 12px;
-            height: 12px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--accent-light);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: all 0.4s ease;
-        }
-
-        .dot.active {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-            transform: scale(1.3);
-            box-shadow: 0 0 15px rgba(2, 132, 199, 0.4);
-        }
-
-        .dot:hover {
-            border-color: var(--accent-blue);
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 992px) {
-            .slider-arrow.prev { left: 2rem; }
-            .slider-arrow.next { right: 2rem; }
-        }
-
-        @media (max-width: 768px) {
-            .slider-arrow {
-                width: 45px;
-                height: 45px;
-            }
-            .slider-arrow.prev { left: 1rem; }
-            .slider-arrow.next { right: 1rem; }
-        }
-
-        /* Hero Intro Card (Slider İçindeki Büyük Kart) */
-        .hero-intro-card {
-            width: 900px;
-            min-width: 900px;
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-            backdrop-filter: blur(15px);
-            border: 3px solid var(--accent-blue);
-            border-radius: 32px;
-            padding: 4rem;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 2rem;
-            box-shadow: 0 25px 50px rgba(2, 132, 199, 0.15);
-        }
-
-        .hero-intro-card h1 {
-            font-size: 3.5rem;
-            margin-bottom: 0;
-            color: var(--text-main);
-            line-height: 1.1;
-            letter-spacing: -1.5px;
-        }
-
-        .hero-intro-card p {
-            font-size: 1.4rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-            max-width: 100%;
-            line-height: 1.6;
-        }
-
-        .hero-intro-card .btn {
-            align-self: flex-start;
-            padding: 1rem 3rem;
-        }
-
-        /* Etiket / Tag Stilleri */
-        .tag-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.65rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .tag-badge {
-            font-family: var(--font-heading);
-            font-size: 0.75rem;
-            font-weight: 700;
-            background: rgba(2, 132, 199, 0.08);
-            color: var(--accent-blue);
-            padding: 0.35rem 0.85rem;
-            border-radius: 50px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: 1px solid rgba(2, 132, 199, 0.15);
-            transition: all 0.3s ease;
-        }
-
-        .tag-badge:hover {
-            background: var(--accent-blue);
-            color: var(--white);
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 992px) {
-            .hero-slider-container { max-width: 90vw; }
-            .hero-intro-card, .slider-card { width: 90vw; min-width: 90vw; padding: 2.5rem; }
-            .hero-intro-card h1 { font-size: 2.2rem; }
-            .slider-arrow.prev { left: 0.5rem; }
-            .slider-arrow.next { right: 0.5rem; }
-        }
-
-
-
-        .slider-card {
-            width: 900px;
-            min-width: 900px;
-            background: var(--bg-secondary);
-            backdrop-filter: blur(10px);
-            border: 2px solid var(--accent-light);
-            border-radius: 32px;
-            padding: 4rem;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-
-        .slider-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-blue);
-            box-shadow: 0 20px 40px rgba(2, 132, 199, 0.12);
-            background: var(--bg-primary);
-        }
-
-        .slider-card h3 {
-            font-size: 2.2rem;
-            margin-bottom: 0;
-            color: var(--text-main);
-            line-height: 1.2;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            letter-spacing: -1px;
-        }
-
-        .slider-card p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin-bottom: 0;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.7;
-        }
-
-        .slider-card .card-footer {
-            margin-top: auto;
-            font-family: var(--font-heading);
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: var(--accent-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
 
         /* =========================================
@@ -1044,20 +818,14 @@
         </div>
         <div class="container">
             <nav class="navbar">
-                <a href="#" class="logo">
-                    <img src="img/yml-logo.png" alt="YML Logo" class="nav-logo-img">
-                    <span>Yeni Medyanın Laneti</span>
-                </a>
+                <a href="index.html" class="logo">Yeni Medyanın Laneti</a>
                 <ul class="nav-links">
                     <li><a href="hakkimizda.html">Hakkımızda</a></li>
                     <li><a href="yazilar.html">Yazılar</a></li>
-                    <li><a href="#about">Yaklaşım</a></li>
+                    <li><a href="index.html#about">Yaklaşım</a></li>
                     <li class="search-item">
-                        <button id="searchTrigger" class="search-btn" title="Yazılarda ara">
-                            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="8"></circle>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                            </svg>
+                        <button class="search-btn" id="searchTrigger" title="Ara">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                         </button>
                     </li>
                     <li class="theme-item">
@@ -1071,41 +839,26 @@
         </div>
     </header>
 
-    <section id="hero" class="hero" style="padding-bottom: 0;">
-        <!-- Ana içerik artık tamamen slider akışının içine entegre edildi -->
-        <div class="hero-slider-container reveal">
-            <!-- Navigasyon Okları -->
-            <button class="slider-arrow prev" id="prevSlide" title="Geri">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <button class="slider-arrow next" id="nextSlide" title="İleri">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
-
-            <div class="hero-slider-track" id="heroSlider">
-                <!-- JS ile Giriş Kartı ve Yazılar buraya doldurulacak -->
-            </div>
-            
-            <!-- Sayfalama Noktaları (Slider Container İçine Alındı) -->
-            <div id="sliderDots" class="slider-dots"></div>
-        </div>
-    </section>
 
 
-
-    <!-- 2. Giriş ve Yaklaşım Bölümü -->
-    <section id="about" class="intro-section">
+    <!-- Hakkımızda İçeriği -->
+    <section id="hakkimizda" class="intro-section" style="background-color: var(--bg-primary); padding-top: 12rem; min-height: 80vh;">
         <div class="container">
-            <div class="intro-grid reveal">
-                <div class="intro-text">
-                    <h2>Akıcı, Lirik ve Satirik Bir Tango</h2>
-                    <p>İletişim ve medya üzerine yüzlerce kitap, yüzlerce ideolojik kapışma... Çoğu, anlaşılmaz terimler ve "uzaylıca" bir dil içinde kayboluyor. Bu platform, medyanın günahkar dallarını incelerken ideolojilerin arkasına saklanmaz.</p>
-                    <p>Sert ve didaktik gerçekleri suratınıza çarparken bile, akıcı ve satirik dilimizin konforunda süzüleceksiniz. İçinde yaşadığımız çağı anlarken kaybolmayın; gökyüzünün beyaz ve mavi ferahlığında oksijen alın.</p>
-                </div>
-                <div class="intro-image">
-                    <!-- Unsplash'ten 'gökyüzü ve bulut' temalı, zihni açan bir görsel stili -->
-                    <img src="https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?q=80&w=800&auto=format&fit=crop" alt="Gökyüzü ve bulutlar - zihinsel ferahlama">
-                </div>
+            <div class="reveal" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <a href="index.html" class="logo" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 2rem; text-decoration: none; color: var(--text-main);">
+                    <img src="img/yml-logo.png" alt="YML Logo" class="nav-logo-img" style="width: 50px; height: 50px;">
+                    <span style="font-size: 2.5rem; font-weight: bold;">Yeni Medyanın Laneti</span>
+                </a>
+                <h2 style="font-size: 2.5rem; margin-bottom: 2rem; color: var(--text-main);">Hakkımızda</h2>
+                <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; text-align: justify;">
+                    Yeni Medya, ortam ve veri dilinin internet ağlarında hayat bulmuş çocuğudur. Bu kavram öyle etkilidir ki; insanların hayatlarını etkileyen; insanların avcılık ve toplayıcılık ile hayata tutunduğu paleolitik çağ, Prometheus'un kahramanlığı sonucu tanrının yasaklı çocuğunu kendi himayesi altına aldığı Mezolitik çağ, Demeter'in insanlığa buğday tohumlarını bahşetmesiyle Neolitik çağ'dan sonra şimdilerde bizler yeni medya çağını iliklerimize kadar hissetmekteyiz.
+                </p>
+                <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.5rem; text-align: justify;">
+                    Bu kavramı ve çağı anlayıp kavramak, doğru bir süzgeç geliştirmek pek ala zor olabilir. Neyse ki, bize yol gösterecek sayısız kaynağımız ve bu kaynaklardan bazılarını nacizane derleyen sitemiz var.
+                </p>
+                <p style="font-size: 1.15rem; line-height: 1.8; color: var(--text-muted); text-align: justify;">
+                    Bir yeni medya öğrencisi olarak nacizane bilgi ve birikimlerimi paylaşacak, Plato'nun Mağara'sından çıkmak adına gölge oyununu söndürmek için ateşe bir damla suyu da ben dökeceğim. Dökeceğim ki gök yüzünden ışıyan hüzmeler mağara duvarlarını değil, insanların bakma edimiyle kirlenip görmeyi unutan gözlerini anlam bozumundan uğratıp tanrının öngördüğü işlevi yapmasına geri dönsün.
+                </p>
             </div>
         </div>
     </section>
@@ -1116,7 +869,7 @@
     <footer>
         <div class="container">
             <div class="footer-content reveal">
-                <a href="#" class="footer-logo">YENİ MEDYANIN LANETİ</a>
+                <a href="index.html" class="footer-logo">YENİ MEDYANIN LANETİ</a>
                 <p class="footer-text">Didaktizm ve sarkazmın mükemmel birleşimi. Okurken düşündüren, nefes aldıran yaratıcı bir medya eleştirisi platformu.</p>
             </div>
             <div class="footer-bottom">
@@ -1166,125 +919,6 @@
                     header.style.boxShadow = 'none';
                 }
             });
-        });
-    </script>
-    <!-- Slider Başlatma Scripti -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sliderTrack = document.getElementById('heroSlider');
-            const prevBtn = document.getElementById('prevSlide');
-            const nextBtn = document.getElementById('nextSlide');
-            const dotsContainer = document.getElementById('sliderDots');
-            
-            if (!sliderTrack || !prevBtn || !nextBtn || !dotsContainer) return;
-
-            let currentIndex = 0;
-            let slideInterval;
-            const AUTO_PLAY_TIME = 3000; // 3 saniye
-
-            // Yazıları çek ve kartları oluştur
-            const buildSlider = () => {
-                const introCardHTML = `
-                    <div class="hero-intro-card">
-                        <h1>Yeni Medyanın Görünmeyen Yüzü</h1>
-                        <p>Medyanın paslı ve veri dolu bunaltıcı yapısından uzak, sade ve yaratıcı bir bakış açısıyla; bilgi yükünü gökyüzü ferahlığında bir dille harmanlıyoruz.</p>
-                        <a href="yazilar.html" class="btn">Derin Bir Nefes Al</a>
-                    </div>
-                `;
-
-                const cardsHTML = articlesIndex.map(article => `
-                    <div class="slider-card" onclick="window.location.href='yazilar.html?article=${article.id}'">
-                        <div class="tag-container">
-                            ${article.tags.map(tag => `<span class="tag-badge">${tag}</span>`).join('')}
-                        </div>
-                        <h3>${article.title}</h3>
-                        <p>${article.excerpt}</p>
-                        <div class="card-footer">
-                            Keşfet <span>&rarr;</span>
-                        </div>
-                    </div>
-                `).join('');
-                
-                sliderTrack.innerHTML = introCardHTML + cardsHTML;
-                
-                // Noktaları oluştur
-                createDots();
-                updateSliderPosition();
-            };
-
-            const createDots = () => {
-                const slideCount = sliderTrack.children.length;
-                dotsContainer.innerHTML = '';
-                for (let i = 0; i < slideCount; i++) {
-                    const dot = document.createElement('div');
-                    dot.classList.add('dot');
-                    if (i === 0) dot.classList.add('active');
-                    dot.addEventListener('click', () => goToSlide(i));
-                    dotsContainer.appendChild(dot);
-                }
-            };
-
-            const updateSliderPosition = () => {
-                const slides = sliderTrack.children;
-                if (slides.length === 0) return;
-                
-                const slideWidth = slides[0].offsetWidth;
-                const gap = 32; // 2rem gap
-                
-                const offset = currentIndex * (slideWidth + gap);
-                sliderTrack.style.transform = `translateX(-${offset}px)`;
-                
-                // Noktaları güncelle
-                const dots = dotsContainer.children;
-                for (let i = 0; i < dots.length; i++) {
-                    dots[i].classList.toggle('active', i === currentIndex);
-                }
-            };
-
-            const goToSlide = (index) => {
-                currentIndex = index;
-                updateSliderPosition();
-                resetTimer();
-            };
-
-            const nextSlide = () => {
-                const slideCount = sliderTrack.children.length;
-                currentIndex = (currentIndex + 1) % slideCount;
-                updateSliderPosition();
-                resetTimer();
-            };
-
-            const prevSlide = () => {
-                const slideCount = sliderTrack.children.length;
-                currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-                updateSliderPosition();
-                resetTimer();
-            };
-
-            const startTimer = () => {
-                slideInterval = setInterval(nextSlide, AUTO_PLAY_TIME);
-            };
-
-            const resetTimer = () => {
-                clearInterval(slideInterval);
-                startTimer();
-            };
-
-            nextBtn.addEventListener('click', nextSlide);
-            prevBtn.addEventListener('click', prevSlide);
-
-            // Yazıların yüklenmesini bekle
-            if (typeof articlesIndex !== 'undefined') {
-                buildSlider();
-                startTimer();
-            } else {
-                setTimeout(() => {
-                    buildSlider();
-                    startTimer();
-                }, 500);
-            }
-
-            window.addEventListener('resize', updateSliderPosition);
         });
     </script>
     <script src="js/theme.js"></script>
